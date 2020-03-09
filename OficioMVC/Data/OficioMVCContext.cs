@@ -21,5 +21,7 @@ namespace OficioMVC.Model
         }
 
         public DbSet<Documento> Documento { get; set; }
+
+        public DbSet<Siga_profs> Siga_profs { get; set; }
     }
 }
