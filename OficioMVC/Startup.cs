@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OficioMVC.Model;
+using OficioMVC.Models;
 using OficioMVC.Service;
 
 namespace OficioMVC
@@ -40,9 +40,10 @@ namespace OficioMVC
             services.AddDbContext<OficioMVCContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("OficioMVCContext"), builder =>
             builder.MigrationsAssembly("OficioMVC")));
-            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>();
             services.AddScoped<Siga_profsService>();
-           
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +62,7 @@ namespace OficioMVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

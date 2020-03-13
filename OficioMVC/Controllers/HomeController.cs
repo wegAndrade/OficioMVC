@@ -5,28 +5,87 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OficioMVC.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Session;
 
 namespace OficioMVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly OficioMVCContext _context;
+
+        public HomeController(OficioMVCContext context)
+        {
+            _context = context;
+        }
+        [HttpGet]
         public IActionResult Index()
+        {
+            if (UsarioLogado())
+            {
+                return View();
+            }
+
+
+            return RedirectToAction("Login");
+        }
+        public IActionResult Login()
         {
             return View();
         }
+        [HttpPost, ActionName("Login")]
+        public IActionResult Login(Siga_profs s)
+        {
+            if (ModelState.IsValid) //verifica se é válido
+            {
 
+
+                var obj = _context.Siga_profs.Where(x => x.user_login == s.user_login && x.user_pass == s.user_pass).FirstOrDefault();
+
+                if (obj != null)
+                {
+                    HttpContext.Session.SetObjectAsJson("User", obj);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+
+            return View(s);
+        }
+
+        public IActionResult Logout(Siga_profs s)
+        {
+            HttpContext.Session.SetObjectAsJson("User", null);
+            return RedirectToAction("Login");
+        }
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            if (UsarioLogado())
+            {
+                ViewData["Message"] = "Your application description page.";
 
-            return View();
+                return View();
+            }
+
+
+            return RedirectToAction("Login");
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            if (UsarioLogado())
+            {
+                ViewData["Message"] = "Your contact page.";
 
-            return View();
+                return View();
+            }
+
+
+            return RedirectToAction("Login");
+
         }
 
         public IActionResult Privacy()
@@ -39,9 +98,24 @@ namespace OficioMVC.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult Login()
+        public bool UsarioLogado()
         {
-            return View();
+            var myUser = HttpContext.Session.GetObjectFromJson<Siga_profs>("User");
+            if (myUser == null)
+            {
+                return false;
+            }
+            if (myUser.user_login != null && myUser.ID != null)
+            {
+                string ativo = myUser.ativo.ToUpper();
+                if (ativo == "ATIVO")
+                {
+                    return true;
+                }
+
+            }
+            return false;
+
         }
     }
 }

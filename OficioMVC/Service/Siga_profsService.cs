@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OficioMVC.Model;
+using OficioMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OficioMVC.Models;
 
 namespace OficioMVC.Service
 {
