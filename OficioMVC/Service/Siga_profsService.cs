@@ -21,9 +21,18 @@ namespace OficioMVC.Service
         {
             return await _context.Siga_profs.Include(obj => obj.dpto).FirstOrDefaultAsync(obj => obj.ID == id);
         }
-        public async Task<Siga_profs> FindByUserAndPassAsync(string user, string pass)
+        public Siga_profs FindByUser(string user, string pass)
         {
-            return await _context.Siga_profs.FirstOrDefaultAsync(obj => obj.user_login == user && obj.user_pass == pass);
+            return  _context.Siga_profs.Where(obj => obj.user_login == user && obj.user_pass == pass).FirstOrDefault();
+        }
+
+
+
+
+        
+        private bool Siga_profsExists(int id)
+        {
+            return _context.Siga_profs.Any(e => e.ID == id);
         }
     }
 }
