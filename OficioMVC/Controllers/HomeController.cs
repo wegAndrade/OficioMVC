@@ -15,11 +15,13 @@ namespace OficioMVC.Controllers
     {
         private readonly Siga_profsService _profsService;
         private readonly OficioMVCContext _context;
+        private readonly HashPass _hash;
 
-        public HomeController(Siga_profsService profsService, OficioMVCContext context)
+        public HomeController(Siga_profsService profsService, OficioMVCContext context, HashPass hash)
         {
             _profsService = profsService;
             _context = context;
+            _hash = hash;
         }
         [HttpGet]
         public IActionResult Index()
@@ -46,8 +48,9 @@ namespace OficioMVC.Controllers
             if (ModelState.IsValid) //verifica se é válido
             {
 
+               string HashPass =  _hash.GerarMD5(s.user_pass);
                 //Verificando as 
-                var obj = _profsService.FindByUser(s.user_login, s.user_pass);
+                var obj = _profsService.FindByUser(s.user_login, HashPass);
 
                 //var obj = _context.Siga_profs.Where(x => x.user_login == s.user_login && x.user_pass == s.user_pass).FirstOrDefault();
                 if (obj != null)

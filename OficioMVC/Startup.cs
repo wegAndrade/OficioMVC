@@ -43,6 +43,7 @@ namespace OficioMVC
             services.AddScoped<Siga_profsService>();
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
+            services.AddScoped<HashPass>();
 
         }
 
