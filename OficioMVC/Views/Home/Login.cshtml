@@ -21,35 +21,38 @@
 
 
 
-<div class="container-fluid">
-<h2 class="d-flex justify-content-center h-100">@ViewData["Title"]</h2>
-	<div class="d-flex justify-content-center h-100 ">
-		<div class="card">
-			<div class="card-header">
-				<h3>Entre</h3>
-				<div class="d-flex justify-content-end social_icon">
+	<div class="container-fluid" id="fundoLogin" >
+		<h2 class="d-flex justify-content-center h-100 ">@ViewData["Title"]</h2>
+		<div class="d-flex justify-content-center h-100 w-100 ">
+			<div class="card ">
+				<div class="card-header">
+					<h3>Entre</h3>
+					<div class="d-flex justify-content-end social_icon">
+					</div>
 				</div>
-			</div>
-			<div class="card-body">
-				<form asp-action="Login">
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class=""></i></span>
-						</div>
-						<input type="text" asp-for="user_login" class="form-control" placeholder="Login" required>
+				<div class="card-body ">
+					<form asp-action="Login">
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class=""></i></span>
+							</div>
+							<input type="text" asp-for="user_login" class="form-control" placeholder="Login" required>
+							<span asp-validation-for="user_login" class="text-danger"></span>
 
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="" ></i></span>
 						</div>
-						<input type="password" asp-for="user_pass" class="form-control" placeholder="Senha" required>
-					</div>
+						<div class="input-group form-group ">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class=""></i></span>
+							</div>
+							<input type="password" asp-for="user_pass" class="form-control" placeholder="Senha" required>
+							<span asp-validation-for="user_pass" class="text-danger row-md-2"></span>
+						</div>
 
-					<div class="form-group">
-						<input type="submit" value="Login" class=" float-right  btn btn-success">
-					</div>
-				</form>
+						<div class="form-group">
+							<input type="submit" value="Login" class=" float-right  btn btn-success">
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
