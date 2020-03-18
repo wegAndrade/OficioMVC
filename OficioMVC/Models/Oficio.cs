@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OficioMVC.Models
 {
-    public class Oficio: Documento
+    public class Oficio
     {
     }
 }

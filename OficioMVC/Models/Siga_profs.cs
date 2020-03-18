@@ -29,6 +29,8 @@ namespace OficioMVC.Models
         public string ativo { get; set; }
         [JsonProperty("dpto")]
         public string dpto { get; set; }
+
+        public ICollection<Documento> Documentos { get; set; } = new List<Documento>();
     }
     }
 

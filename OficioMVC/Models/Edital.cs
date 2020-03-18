@@ -12,5 +12,9 @@ namespace OficioMVC.Models
         {
             Tipo = tipo;
         }
+
+        public Edital()
+        {
+        }
     }
 }

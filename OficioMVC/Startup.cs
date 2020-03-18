@@ -41,9 +41,11 @@ namespace OficioMVC
             options.UseMySql(Configuration.GetConnectionString("OficioMVCContext"), builder =>
             builder.MigrationsAssembly("OficioMVC")));
             services.AddScoped<Siga_profsService>();
+            services.AddScoped<EditalService>(); 
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
             services.AddScoped<HashPass>();
+            
 
         }
 
