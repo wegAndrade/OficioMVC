@@ -17,10 +17,17 @@ namespace OficioMVC.Models
         public string Observacoes { get; set; }
         public string CaminhoArq { get; set; }
         public DateTime DataEnvio { get; set; }
+        public DateTime DataAlteracao { get; set; }
         public Siga_profs Usuario { get; set; }
 
-
-
+        public Documento(int id, int numeracao, int ano, string assunto, Siga_profs usuario)
+        {
+            Id = id;
+            Numeracao = numeracao;
+            Ano = ano;
+            Assunto = assunto ?? throw new ArgumentNullException(nameof(assunto));
+            Usuario = usuario ?? throw new ArgumentNullException(nameof(usuario));
+        }
     }
 }
 
