@@ -19,9 +19,16 @@ namespace OficioMVC.Models
         public string Observacoes { get; set; }
         public TipoDoc Tipo { get; set; }
         public string CaminhoArq { get; set; }
+        
+        [Display(Name = "Data Envio")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataEnvio { get; set; }
+        [Display(Name = "Data Alteração")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataAlteracao { get; set; }
-        [Required]
+
         public Siga_profs Usuario { get; set; }
         public int UsuarioId { get; set; }
 

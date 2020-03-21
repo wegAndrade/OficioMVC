@@ -41,11 +41,11 @@
 
         </nav>
        
-            <a id="btn-logout" class="p-2 text-dark hidden" style="display:none"><button type="button" data-toggle="modal" data-target="#LogoutModal" class=" float-left  btn btn-outline-secondary hidden" >Logout</button></a>
+            <a id="btn-logout" class="p-2 text-dark hidden" style="display:none"><div type="button" data-toggle="modal" data-target="#LogoutModal" class=" float-left  btn btn-outline-secondary hidden" >Logout</div></a>
         
         
         
-        <a id="btn-login"class="p-2 text-dark" style="display:none" asp-area="" asp-controller="Home" asp-action="Login"><button type="button" d class=" float-left  btn btn-outline-primary" >Login</button></a>
+        <a id="btn-login"class="p-2 text-dark" style="display:none" asp-area="" asp-controller="Home" asp-action="Login"><div type="button" d class=" float-left  btn btn-outline-primary" >Login</div></a>
 
         
     </div>
@@ -61,7 +61,7 @@
         </div>
         <div class="modal-body">
             
-            <a asp-area="" asp-controller="Home" asp-action="Logout"> <input type="" class="btn btn-danger" value="Sair" ></a>
+            <a asp-area="" asp-controller="Home" asp-action="Logout"> <input type="button" class="btn btn-danger" value="Sair" ></a>
             <button type="button" class="btn btn-primary float-right" data-dismiss="modal" >Não, quero ficar!</button>
         </div>
       </div>

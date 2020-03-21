@@ -63,11 +63,18 @@ namespace OficioMVC.Service
                 throw new DbConcurencyException(e.Message);
             }
         }
-        public int LastSeq()
+        public int GetNumMax()
         {
             int Ano = DateTime.Now.Year;
-            var max = _context.Documento.Where(x => x.Ano == Ano).Max(x => x.Numeracao);
-            return max;
+            
+            var max1 = _context.Documento.Where(x => x.Ano == Ano).ToList();
+            if(max1.Count == 0)
+            {
+                return 1;
+            }
+            var max = max1.Max(x => x.Numeracao);
+            return max + 1;
         }
+        
     }
 }

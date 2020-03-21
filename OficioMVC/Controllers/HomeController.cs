@@ -35,7 +35,7 @@ namespace OficioMVC.Controllers
 
 
 
-            return RedirectToAction("Login");
+           
         }
         public IActionResult Login()
         {

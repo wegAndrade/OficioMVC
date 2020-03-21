@@ -10,6 +10,7 @@ using OficioMVC.Libraries.Filtro;
 using OficioMVC.Libraries.Login;
 using OficioMVC.Models;
 using OficioMVC.Models.ViewModels;
+using OficioMVC.Service;
 
 namespace OficioMVC.Controllers
 {
@@ -18,13 +19,15 @@ namespace OficioMVC.Controllers
     {
         private readonly OficioMVCContext _context;
         private readonly LoginUser _login;
+        private readonly DocumentoService _documentoService;
 
         
         
-        public DocumentosController(OficioMVCContext context, LoginUser login)
+        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService)
         {
             _context = context;
             _login = login;
+            _documentoService = documentoService;
         }
 
        
@@ -34,6 +37,15 @@ namespace OficioMVC.Controllers
                  var oficioMVCContext = _context.Documento.Include(d => d.Usuario);
                 return View(await oficioMVCContext.ToListAsync());
         }
+
+        public  IActionResult CreateEdital()
+        {
+            Siga_profs Usuario = _login.GetUser();
+            ViewBag.Siga_profs = Usuario.ID;
+            ViewBag.Siga_profs = Usuario.user_login;
+            return View("Create");
+        }
+
 
         // GET: Documentoes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -55,12 +67,17 @@ namespace OficioMVC.Controllers
         }
 
         // GET: Documentoes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var usuario =  _context.Siga_profs.FirstOrDefault();
-            var viewModel = new DocumentoViewModel { Usuario =  usuario };
-            ViewData["UsuarioId"] = new SelectList(_context.Siga_profs, "ID", "user_login");
-            return View(viewModel);
+            
+
+            Siga_profs Usuario = _login.GetUser();
+            ViewBag.Siga_profs = Usuario;
+
+
+
+          
+            return View();
             
             
         }
@@ -70,19 +87,20 @@ namespace OficioMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Documento documento)
+        public async Task<IActionResult> Create([FromForm] Documento documento)
         {
-            var obj = documento;
+            documento.UsuarioId = _login.GetUser().ID;
+            documento.Numeracao = _documentoService.GetNumMax();
+            documento.Ano = DateTime.Now.Year;
+            documento.DataEnvio = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                _context.Add(documento);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+               
+                await _documentoService.InsertAsync(documento);
+                
             }
-            var usuario = _context.Siga_profs.FirstOrDefault();
-            var viewModel = new DocumentoViewModel { Usuario = usuario };
-            ViewData["UsuarioId"] = new SelectList(_context.Siga_profs, "ID", "user_login");
-            return View(viewModel);
+            return RedirectToAction("Index");
         }
 
         // GET: Documentoes/Edit/5
