@@ -8,6 +8,7 @@ using OficioMVC.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Session;
 using OficioMVC.Service;
+using OficioMVC.Libraries.Login;
 
 namespace OficioMVC.Controllers
 {
@@ -16,30 +17,29 @@ namespace OficioMVC.Controllers
         private readonly Siga_profsService _profsService;
         private readonly OficioMVCContext _context;
         private readonly HashPass _hash;
-
-        public HomeController(Siga_profsService profsService, OficioMVCContext context, HashPass hash)
+        private readonly LoginUser _login;
+        
+        public HomeController(Siga_profsService profsService, OficioMVCContext context, HashPass hash,LoginUser login)
         {
             _profsService = profsService;
             _context = context;
             _hash = hash;
+            _login = login;
+            
         }
         [HttpGet]
         public IActionResult Index()
         {
-            if (UsarioLogado())
-            {
+                         
                 return View();
-            }
+            
 
 
             return RedirectToAction("Login");
         }
         public IActionResult Login()
         {
-            if (UsarioLogado())
-            {
-                return RedirectToAction("Index");
-            }
+           
             return View();
         }
         [HttpPost, ActionName("Login")]
@@ -48,14 +48,15 @@ namespace OficioMVC.Controllers
             if (ModelState.IsValid) //verifica se é válido
             {
 
-               string HashPass =  _hash.GerarMD5(s.user_pass);
+                string HashPass =  _hash.GerarMD5(s.user_pass);
                 //Verificando as 
                 var obj = _profsService.FindByUser(s.user_login, HashPass);
 
                 //var obj = _context.Siga_profs.Where(x => x.user_login == s.user_login && x.user_pass == s.user_pass).FirstOrDefault();
                 if (obj != null)
                 {
-                    HttpContext.Session.SetObjectAsJson("User", obj);
+                    _login.Login(obj);
+                    //HttpContext.Session.SetObjectAsJson("User", obj);
                     return RedirectToAction("Index");
                     
                 }
@@ -70,33 +71,31 @@ namespace OficioMVC.Controllers
 
         public IActionResult Logout(Siga_profs s)
         {
-            HttpContext.Session.SetObjectAsJson("User", null);
+            _login.Logout();
+            //HttpContext.Session.SetObjectAsJson("User", null);
             return RedirectToAction("Login");
         }
         public IActionResult About()
         {
-            if (UsarioLogado())
-            {
                 ViewData["Message"] = "Your application description page.";
 
                 return View();
-            }
+            
 
 
-            return RedirectToAction("Login");
+            
         }
 
         public IActionResult Contact()
         {
-            if (UsarioLogado())
-            {
+           
+            
                 ViewData["Message"] = "Your contact page.";
 
                 return View();
-            }
+            
 
 
-            return RedirectToAction("Login");
 
         }
 
@@ -110,24 +109,5 @@ namespace OficioMVC.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public bool UsarioLogado()
-        {
-            var myUser = HttpContext.Session.GetObjectFromJson<Siga_profs>("User");
-            if (myUser == null)
-            {
-                return false;
             }
-            if (myUser.user_login != null && myUser.ID != null)
-            {
-                string ativo = myUser.ativo.ToUpper();
-                if (ativo == "ATIVO")
-                {
-                    return true;
-                }
-
-            }
-            return false;
-
-        }
-    }
 }

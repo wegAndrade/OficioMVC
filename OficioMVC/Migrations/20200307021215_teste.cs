@@ -37,7 +37,8 @@ namespace OficioMVC.Migrations
                     CaminhoArq = table.Column<string>(nullable: true),
                     DataEnvio = table.Column<DateTime>(nullable: false),
                     UsuarioID = table.Column<int>(nullable: true),
-                    Siga_profs_id = table.Column<int>(nullable: false)
+                    Siga_profs_id = table.Column<int>(nullable: false),
+                    Tipo = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

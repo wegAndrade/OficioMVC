@@ -25,11 +25,7 @@ namespace OficioMVC.Service
         {
             return  _context.Siga_profs.Where(obj => obj.user_login == user && obj.user_pass == pass).FirstOrDefault();
         }
-
-
-
-
-        
+ 
         private bool Siga_profsExists(int id)
         {
             return _context.Siga_profs.Any(e => e.ID == id);

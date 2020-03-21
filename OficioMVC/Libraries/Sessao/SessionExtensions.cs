@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace OficioMVC.Models
+namespace OficioMVC.Libraries.Sessao
 {
     public static class SessionExtensions
     {

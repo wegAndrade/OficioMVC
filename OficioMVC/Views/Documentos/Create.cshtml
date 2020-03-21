@@ -1,0 +1,78 @@
+﻿@model OficioMVC.Models.ViewModels.DocumentoViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Documento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Documento.Numeracao" class="control-label"></label>
+                <input asp-for="Documento.Numeracao" class="form-control" />
+                <span asp-validation-for="Documento.Numeracao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.Ano" class="control-label"></label>
+                <input asp-for="Documento.Ano" class="form-control" />
+                <span asp-validation-for="Documento.Ano" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.Assunto" class="control-label"></label>
+                <input asp-for="Documento.Assunto" class="form-control" />
+                <span asp-validation-for="Documento.Assunto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.Observacoes" class="control-label"></label>
+                <input asp-for="Documento.Observacoes" class="form-control" />
+                <span asp-validation-for="Documento.Observacoes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.Tipo" class="control-label"></label>
+                <select asp-for="Documento.Tipo" class="form-control">
+                    <option value="0">Edital</option>
+                    <option value="1">Edital Interno</option>
+                    <option value="2">Edital Externo</option>
+                </select>
+                <span asp-validation-for="Documento.Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.CaminhoArq" class="control-label"></label>
+                <input asp-for="Documento.CaminhoArq" class="form-control" />
+                <span asp-validation-for="Documento.CaminhoArq" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.DataEnvio" class="control-label"></label>
+                <input asp-for="Documento.DataEnvio" class="form-control" />
+                <span asp-validation-for="Documento.DataEnvio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.DataAlteracao" class="control-label"></label>
+                <input asp-for="Documento.DataAlteracao" class="form-control" />
+                <span asp-validation-for="Documento.DataAlteracao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Documento.UsuarioId" class="control-label"></label>
+                <select asp-for="Documento.UsuarioId" class ="form-control" >
+                    <option value="1">Teste</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

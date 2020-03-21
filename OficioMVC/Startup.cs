@@ -11,8 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OficioMVC.Libraries.Sessao;
 using OficioMVC.Models;
 using OficioMVC.Service;
+using OficioMVC.Libraries.Login;
 
 namespace OficioMVC
 {
@@ -35,17 +38,22 @@ namespace OficioMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddHttpContextAccessor();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<OficioMVCContext>(options =>
             options.UseMySql(Configuration.GetConnectionString("OficioMVCContext"), builder =>
             builder.MigrationsAssembly("OficioMVC")));
             services.AddScoped<Siga_profsService>();
-            services.AddScoped<EditalService>(); 
+            services.AddScoped<DocumentoService>();
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
             services.AddScoped<HashPass>();
-            
+            services.AddScoped<Sessao>();
+            services.AddScoped<LoginUser>();
+          
+   
+
+
 
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OficioMVC.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace OficioMVC.Models
         [Required]
         public string Assunto { get; set; }
         public string Observacoes { get; set; }
+        public TipoDoc Tipo { get; set; }
         public string CaminhoArq { get; set; }
         public DateTime DataEnvio { get; set; }
         public DateTime DataAlteracao { get; set; }
@@ -27,13 +29,14 @@ namespace OficioMVC.Models
         {
 
         }
-        public Documento(int id, int numeracao, int ano, string assunto, Siga_profs usuario)
+        public Documento(int id, int numeracao, int ano, string assunto, Siga_profs usuario, TipoDoc tipo)
         {
             Id = id;
             Numeracao = numeracao;
             Ano = ano;
             Assunto = assunto ;
             Usuario = usuario ;
+            Tipo = tipo;
         }
     }
 }
