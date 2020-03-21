@@ -18,28 +18,28 @@ namespace OficioMVC.Controllers
         private readonly OficioMVCContext _context;
         private readonly HashPass _hash;
         private readonly LoginUser _login;
-        
-        public HomeController(Siga_profsService profsService, OficioMVCContext context, HashPass hash,LoginUser login)
+
+        public HomeController(Siga_profsService profsService, OficioMVCContext context, HashPass hash, LoginUser login)
         {
             _profsService = profsService;
             _context = context;
             _hash = hash;
             _login = login;
-            
+
         }
         [HttpGet]
         public IActionResult Index()
         {
-                         
-                return View();
-            
+
+            return View();
+
 
 
             return RedirectToAction("Login");
         }
         public IActionResult Login()
         {
-           
+
             return View();
         }
         [HttpPost, ActionName("Login")]
@@ -48,7 +48,7 @@ namespace OficioMVC.Controllers
             if (ModelState.IsValid) //verifica se é válido
             {
 
-                string HashPass =  _hash.GerarMD5(s.user_pass);
+                string HashPass = _hash.GerarMD5(s.user_pass);
                 //Verificando as 
                 var obj = _profsService.FindByUser(s.user_login, HashPass);
 
@@ -58,7 +58,7 @@ namespace OficioMVC.Controllers
                     _login.Login(obj);
                     //HttpContext.Session.SetObjectAsJson("User", obj);
                     return RedirectToAction("Index");
-                    
+
                 }
                 else
                 {
@@ -77,23 +77,23 @@ namespace OficioMVC.Controllers
         }
         public IActionResult About()
         {
-                ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Your application description page.";
 
-                return View();
-            
+            return View();
 
 
-            
+
+
         }
 
         public IActionResult Contact()
         {
-           
-            
-                ViewData["Message"] = "Your contact page.";
 
-                return View();
-            
+
+            ViewData["Message"] = "Your contact page.";
+
+            return View();
+
 
 
 
@@ -109,5 +109,9 @@ namespace OficioMVC.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-            }
+        public IActionResult AcessoNegado()
+        {
+            return View();
+        }
+    }
 }

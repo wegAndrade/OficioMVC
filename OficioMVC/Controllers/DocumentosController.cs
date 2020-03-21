@@ -2,28 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OficioMVC.Libraries.Filtro;
+using OficioMVC.Libraries.Login;
 using OficioMVC.Models;
 using OficioMVC.Models.ViewModels;
 
 namespace OficioMVC.Controllers
 {
+    [UsuarioAutorizacao]
     public class DocumentosController : Controller
     {
         private readonly OficioMVCContext _context;
+        private readonly LoginUser _login;
 
-        public DocumentosController(OficioMVCContext context)
+        
+        
+        public DocumentosController(OficioMVCContext context, LoginUser login)
         {
             _context = context;
+            _login = login;
         }
 
+       
         // GET: Documentoes
         public async Task<IActionResult> Index()
         {
-            var oficioMVCContext = _context.Documento.Include(d => d.Usuario);
-            return View(await oficioMVCContext.ToListAsync());
+                 var oficioMVCContext = _context.Documento.Include(d => d.Usuario);
+                return View(await oficioMVCContext.ToListAsync());
         }
 
         // GET: Documentoes/Details/5
