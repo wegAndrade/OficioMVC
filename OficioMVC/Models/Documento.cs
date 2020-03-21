@@ -45,6 +45,19 @@ namespace OficioMVC.Models
             Usuario = usuario ;
             Tipo = tipo;
         }
+
+        public Documento(int id, int numeracao, int ano, string assunto,string observacoes, Siga_profs usuario, TipoDoc tipo, int usuarioId, DateTime dataEnvio)
+        {
+            Id = id;
+            Numeracao = numeracao;
+            Ano = ano;
+            Assunto = assunto;
+            Usuario = usuario;
+            Tipo = tipo;
+            Observacoes = observacoes;
+            UsuarioId = usuarioId;
+            DataEnvio = dataEnvio;
+        }
     }
 }
 
