@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using OficioMVC.Libraries.Filtro;
 using OficioMVC.Libraries.Login;
 using OficioMVC.Models;
+using OficioMVC.Models.Enums;
 using OficioMVC.Models.ViewModels;
 using OficioMVC.Service;
 
@@ -21,8 +22,8 @@ namespace OficioMVC.Controllers
         private readonly LoginUser _login;
         private readonly DocumentoService _documentoService;
 
-        
-        
+
+
         public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService)
         {
             _context = context;
@@ -30,21 +31,15 @@ namespace OficioMVC.Controllers
             _documentoService = documentoService;
         }
 
-       
+
         // GET: Documentoes
         public async Task<IActionResult> Index()
         {
-                 var oficioMVCContext = _context.Documento.Include(d => d.Usuario);
-                return View(await oficioMVCContext.ToListAsync());
+            var oficioMVCContext = _context.Documento.Include(d => d.Usuario);
+            return View(await oficioMVCContext.ToListAsync());
         }
 
-        public  IActionResult CreateEdital()
-        {
-            Siga_profs Usuario = _login.GetUser();
-            ViewBag.Siga_profs = Usuario.ID;
-            ViewBag.Siga_profs = Usuario.user_login;
-            return View("Create");
-        }
+
 
 
         // GET: Documentoes/Details/5
@@ -67,24 +62,38 @@ namespace OficioMVC.Controllers
         }
 
         // GET: Documentoes/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create(int? T)
         {
-            
-
+           
+            int typeId = (int)T;
+            TipoDoc T1 = (TipoDoc)T;
+            string typeName = T1.ToString();
+            ViewBag.typeId = typeId;
+            ViewBag.typeName = typeName;
             Siga_profs Usuario = _login.GetUser();
             ViewBag.Siga_profs = Usuario;
-
-
-
-          
             return View();
-            
-            
         }
-
-        // POST: Documentoes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public IActionResult CreateEdital()
+        {
+            int T1 = (int)TipoDoc.Edital;
+            return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
+        }
+        public IActionResult CreateOficio()
+        {
+            int T1 = (int)TipoDoc.Oficio;
+            return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
+        }
+        public IActionResult CreateMemorando()
+        {
+            int T1 = (int)TipoDoc.Memorando;
+            return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
+        }
+        public IActionResult CreatePortaria()
+        {
+            int T1 = (int)TipoDoc.Portaria;
+            return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Documento documento)
@@ -96,9 +105,9 @@ namespace OficioMVC.Controllers
 
             if (ModelState.IsValid)
             {
-               
+
                 await _documentoService.InsertAsync(documento);
-                
+
             }
             return RedirectToAction("Index");
         }

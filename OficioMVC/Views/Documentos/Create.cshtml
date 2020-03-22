@@ -1,11 +1,12 @@
-﻿@model OficioMVC.Models.ViewModels.DocumentoViewModel
+﻿@model OficioMVC.Models.ViewModels.DocumentoViewModel;
 
 @{
-    ViewData["Title"] = "Create";
-    
+    ViewData["Title"] = ViewBag.TipoDoc;
+    int typeId = ViewBag.typeId;
+    string typeName = ViewBag.typeName;
 }
 
-<h2>Create</h2>
+<h2>@ViewData["Title"]</h2>
 
 <h4>Documento</h4>
 <hr />
@@ -23,22 +24,34 @@
                 <input asp-for="Documento.Observacoes" class="form-control" />
                 <span asp-validation-for="Documento.Observacoes" class="text-danger"></span>
             </div>
+            @if (typeId == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="Documento.Tipo" class="control-label"></label>
+                    <select asp-for="Documento.Tipo" class="form-control">
+                        <option value="0">Edital</option>
+                        <option value="1">Edital Interno</option>
+                        <option value="2">Edital Externo</option>
+                    </select>
+                    <span asp-validation-for="Documento.Tipo" class="text-danger"></span>
+                </div>
+            }
+            @if(typeId != 0)
+            { 
             <div class="form-group">
-                <label asp-for="Documento.Tipo" class="control-label"></label>
-                <select asp-for="Documento.Tipo" class="form-control">
-                    <option value="0">Edital</option>
-                    <option value="1">Edital Interno</option>
-                    <option value="2">Edital Externo</option>
-                </select>
-                <span asp-validation-for="Documento.Tipo" class="text-danger"></span>
+            <label asp-for="Documento.Tipo" class="control-label"></label>
+            <select asp-for="Documento.Tipo" class="form-control" disabled>
+                <option value="@typeId" selected>@typeName</option>
+            </select>
             </div>
+            }
             <div class="form-group">
                 <label asp-for="Documento.CaminhoArq" class="control-label"></label>
                 <input asp-for="Documento.CaminhoArq" class="form-control" />
                 <span asp-validation-for="Documento.CaminhoArq" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" asp-controller="Documentos" />
             </div>
         </form>
     </div>

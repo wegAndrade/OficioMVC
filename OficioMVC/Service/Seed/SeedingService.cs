@@ -26,6 +26,8 @@ namespace OficioMVC.Service.Seed
             Documento documento = new Documento(1, 1, 2020, "Teste de desenvolvimento para criação de ambiente de homologação","Observação de teste", teste,Models.Enums.TipoDoc.Edital,1,DateTime.Now );
             _context.Documento.Add(documento);
 
+            
+
             _context.SaveChanges();
 
         }
