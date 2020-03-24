@@ -19,7 +19,7 @@ namespace OficioMVC.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Ano = table.Column<int>(nullable: false),
-                    Assunto = table.Column<string>(nullable: true),
+                    Assunto = table.Column<string>(nullable: false),
                     Observacoes = table.Column<string>(nullable: true),
                     CaminhoArq = table.Column<string>(nullable: true),
                     DataEnvio = table.Column<DateTime>(nullable: true),
@@ -50,6 +50,21 @@ namespace OficioMVC.Migrations
                 table: "Documento",
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.AlterColumn<string>(
+               name: "Assunto",
+               table: "Documento",
+               type: "varchar(250)",
+               nullable: false,
+               oldClrType: typeof(string));
+
+
+            migrationBuilder.AlterColumn<string>(
+           name: "Observacoes",
+           table: "Documento",
+           type: "varchar(250)",
+           nullable: false,
+           oldClrType: typeof(string));
         }
     }
 }

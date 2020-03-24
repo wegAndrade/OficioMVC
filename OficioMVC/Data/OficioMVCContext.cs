@@ -18,6 +18,11 @@ namespace OficioMVC.Models
             modelBuilder.Entity<Documento>()
             .HasIndex(p => new { p.Numeracao, p.Ano })
             .IsUnique(true);
+
+            modelBuilder.Entity<Documento>()
+         .Property(p => p.Assunto)
+         .HasColumnType("varchar(250)");
+
         }
 
         public DbSet<Documento> Documento { get; set; }

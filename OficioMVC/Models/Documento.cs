@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,6 @@ namespace OficioMVC.Models
         public string Observacoes { get; set; }
         public TipoDoc Tipo { get; set; }
         public string CaminhoArq { get; set; }
-        
         [Display(Name = "Data Envio")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]

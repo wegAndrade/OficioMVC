@@ -25,7 +25,8 @@ namespace OficioMVC.Migrations
                     b.Property<int>("Ano");
 
                     b.Property<string>("Assunto")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("CaminhoArq");
 
