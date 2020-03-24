@@ -19,9 +19,6 @@
                 @Html.DisplayNameFor(model => model.Numeracao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ano)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Assunto)
             </th>
             <th>
@@ -29,9 +26,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CaminhoArq)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DataEnvio)
@@ -49,10 +43,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Numeracao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ano)
+                @Html.DisplayFor(modelItem => item.Numeracao) /@Html.DisplayFor(modelItem => item.Ano)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Assunto)
@@ -62,9 +53,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CaminhoArq)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DataEnvio)

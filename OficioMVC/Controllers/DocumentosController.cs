@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +66,7 @@ namespace OficioMVC.Controllers
         // GET: Documentoes/Create
         public IActionResult Create(int? T)
         {
-           
+
             int typeId = (int)T;
             TipoDoc T1 = (TipoDoc)T;
             string typeName = T1.ToString();
@@ -98,6 +100,7 @@ namespace OficioMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Documento documento)
         {
+
             documento.UsuarioId = _login.GetUser().ID;
             documento.Numeracao = _documentoService.GetNumMax();
             documento.Ano = DateTime.Now.Year;
@@ -199,5 +202,6 @@ namespace OficioMVC.Controllers
         {
             return _context.Documento.Any(e => e.Id == id);
         }
+
     }
 }

@@ -9,9 +9,10 @@ namespace OficioMVC.Models
 {
     public class Documento
     {
-     
+
         [Key]
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:000}")]
         public int Numeracao { get; set; }
         public int Ano { get; set; }
         [Required]

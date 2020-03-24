@@ -17,6 +17,8 @@ using OficioMVC.Models;
 using OficioMVC.Service;
 using OficioMVC.Libraries.Login;
 using OficioMVC.Service.Seed;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace OficioMVC
 {
@@ -51,8 +53,11 @@ namespace OficioMVC
             services.AddScoped<HashPass>();
             services.AddScoped<Sessao>();
             services.AddScoped<LoginUser>();
-          
-   
+            services.AddSingleton<IFileProvider>(
+                 new PhysicalFileProvider(
+             Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
+
 
 
 
