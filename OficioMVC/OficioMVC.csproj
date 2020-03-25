@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Siga_profs\" />
+    <Folder Include="wwwroot\Arquivos\" />
   </ItemGroup>
 
 </Project>

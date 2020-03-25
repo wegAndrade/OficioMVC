@@ -10,17 +10,17 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Numeracao" class="control-label"></label>
-                <input asp-for="Numeracao" class="form-control" />
+                <input asp-for="Numeracao" class="form-control" disabled/>
                 <span asp-validation-for="Numeracao" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ano" class="control-label"></label>
-                <input asp-for="Ano" class="form-control" />
+                <input asp-for="Ano" class="form-control" disabled/>
                 <span asp-validation-for="Ano" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,23 +39,17 @@
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CaminhoArq" class="control-label"></label>
-                <input asp-for="CaminhoArq" class="form-control" />
-                <span asp-validation-for="CaminhoArq" class="text-danger"></span>
+                <label  class="control-label">Arquivo PDF!</label>
+                <input type="file" name="file" />
             </div>
             <div class="form-group">
-                <label asp-for="DataEnvio" class="control-label"></label>
-                <input asp-for="DataEnvio" class="form-control" />
+           
+                <input type="hidden" asp-for="DataEnvio" class="form-control" />
                 <span asp-validation-for="DataEnvio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataAlteracao" class="control-label"></label>
-                <input asp-for="DataAlteracao" class="form-control" />
-                <span asp-validation-for="DataAlteracao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
+                
+                <input type="hidden"asp-for="UsuarioId" />
                 <span asp-validation-for="UsuarioId" class="text-danger"></span>
             </div>
             <div class="form-group">

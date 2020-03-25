@@ -19,6 +19,7 @@ using OficioMVC.Libraries.Login;
 using OficioMVC.Service.Seed;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using OficioMVC.Libraries.Arquivo;
 
 namespace OficioMVC
 {
@@ -56,6 +57,7 @@ namespace OficioMVC
             services.AddSingleton<IFileProvider>(
                  new PhysicalFileProvider(
              Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+            services.AddScoped<UploadFile>();
 
 
 

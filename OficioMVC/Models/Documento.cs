@@ -33,6 +33,7 @@ namespace OficioMVC.Models
         public Siga_profs Usuario { get; set; }
         public int UsuarioId { get; set; }
 
+
         public Documento()
         {
 

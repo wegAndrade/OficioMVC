@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OficioMVC.Libraries.Arquivo;
 using OficioMVC.Libraries.Filtro;
 using OficioMVC.Libraries.Login;
 using OficioMVC.Models;
@@ -23,14 +25,16 @@ namespace OficioMVC.Controllers
         private readonly OficioMVCContext _context;
         private readonly LoginUser _login;
         private readonly DocumentoService _documentoService;
+        UploadFile _arquivo;
 
 
 
-        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService)
+        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, UploadFile arquivo)
         {
             _context = context;
             _login = login;
             _documentoService = documentoService;
+            _arquivo = arquivo;
         }
 
 
@@ -128,7 +132,7 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Siga_profs, "ID", "user_login", documento.UsuarioId);
+            
             return View(documento);
         }
 
@@ -137,7 +141,7 @@ namespace OficioMVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Numeracao,Ano,Assunto,Observacoes,Tipo,CaminhoArq,DataEnvio,DataAlteracao,UsuarioId")] Documento documento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Numeracao,Ano,Assunto,Observacoes,Tipo,CaminhoArq,DataEnvio,DataAlteracao,UsuarioId")] Documento documento, IFormFile file)
         {
             if (id != documento.Id)
             {
@@ -148,6 +152,9 @@ namespace OficioMVC.Controllers
             {
                 try
                 {
+                   string arqCaminho =  _arquivo.Upload(file);
+                    documento.CaminhoArq = arqCaminho;
+                    documento.DataAlteracao = DateTime.Now;
                     _context.Update(documento);
                     await _context.SaveChangesAsync();
                 }
@@ -202,6 +209,8 @@ namespace OficioMVC.Controllers
         {
             return _context.Documento.Any(e => e.Id == id);
         }
+
+        
 
     }
 }
