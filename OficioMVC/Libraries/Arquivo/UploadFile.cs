@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OficioMVC.Service.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,15 +18,18 @@ namespace OficioMVC.Libraries.Arquivo
         {
             _appEnvironment = appEnviroment;
         }
-        public String Upload(IFormFile file)
+        public string Upload(IFormFile file, string FileNewname)
         {
             // Extract file name from whatever was posted by browser
             var fileName = System.IO.Path.GetFileName(file.FileName);
 
 
+           string ext =  Path.GetExtension(fileName);
             string Caminho_web = _appEnvironment.WebRootPath;
 
-            string Destino = Caminho_web + "\\Arquivos\\" + fileName;
+            string FileNameExt = FileNewname + ext;
+
+            string Destino = Caminho_web + "\\Arquivos\\" + FileNameExt;
 
 
 
@@ -34,8 +38,8 @@ namespace OficioMVC.Libraries.Arquivo
             // If file with same name exists delete it
             if (System.IO.File.Exists(fileName))
             {
-
-                return "Arquivo já existe";
+                File.Delete(fileName);
+                 
             }
 
 
@@ -43,26 +47,27 @@ namespace OficioMVC.Libraries.Arquivo
             using (var localFile = System.IO.File.OpenWrite(fileName))
             using (var uploadedFile = file.OpenReadStream())
             {
+                
                 uploadedFile.CopyTo(localFile);
             }
-            try
-            {
-                Directory.Move(fileName, Destino);
-            }
-            catch (IOException e)
-            {
-                
-                return "Arquivo já existe";
-            }
-
-            if (System.IO.File.Exists(fileName))
-            {
-                System.IO.File.Delete(fileName);
-            }
-
+           
             
+                Directory.Move(fileName, Destino);
+                 return FileNameExt;
 
-            return Destino;
+
+        }
+
+        public bool FileExist(string file)
+        {
+            string Caminho_web = _appEnvironment.WebRootPath;
+            string FileLocal = Caminho_web + "\\Arquivos\\" + file;
+
+            if (System.IO.File.Exists(FileLocal))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

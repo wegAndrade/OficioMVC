@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -132,7 +133,7 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-            
+            ViewBag.Doc_identificador = Convert.ToString(documento.Numeracao) + "/" + Convert.ToString(documento.Ano);
             return View(documento);
         }
 
@@ -152,8 +153,21 @@ namespace OficioMVC.Controllers
             {
                 try
                 {
-                   string arqCaminho =  _arquivo.Upload(file);
-                    documento.CaminhoArq = arqCaminho;
+
+                    string fileNewName = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
+                    string fileNameExt;
+                    try
+                    {
+                        fileNameExt = _arquivo.Upload(file, fileNewName);
+                    }
+                    catch (IOException e)
+                    {
+                        return RedirectToAction(nameof(Error), new { message = "Documento já existe"  + e.Message});
+                    }
+                    if (_arquivo.FileExist(fileNameExt))
+                    {
+                        documento.CaminhoArq = fileNameExt;
+                    }
                     documento.DataAlteracao = DateTime.Now;
                     _context.Update(documento);
                     await _context.SaveChangesAsync();
@@ -210,7 +224,41 @@ namespace OficioMVC.Controllers
             return _context.Documento.Any(e => e.Id == id);
         }
 
-        
+        public ActionResult DownloadFile(string arquivo)
+        {
+            if (arquivo == null)
+                return Content("filename not present");
+
+            var path = Path.Combine(
+                           Directory.GetCurrentDirectory(),
+                           "wwwroot", "Arquivos", arquivo);
+
+            FileStream fileStream;
+
+            try
+            {
+                fileStream = System.IO.File.OpenRead(path);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return new EmptyResult();
+            }
+
+
+            return File(fileStream, path, arquivo);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
+        }
+
+
 
     }
 }

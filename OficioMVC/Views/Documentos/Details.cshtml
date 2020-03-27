@@ -44,7 +44,20 @@
             @Html.DisplayNameFor(model => model.CaminhoArq)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.CaminhoArq)
+            <li>
+                Download:
+                <a class="btn btn-primary mb-3" onclick="downloadMaterial(this)" name=@Html.DisplayFor(modelItem => Model.CaminhoArq)><span class="glyphicon glyphicon-download-alt"></span></a>
+            </li>
+
+            <script>
+                function downloadMaterial(e)
+                {
+                    var path = e.name;
+                    console.log(e.name);
+                 var arquivo = path.split("arquivos/")[1];
+                 window.open("/Controller/Documentos/DownloadFile/?arquivo=" + arquivo, "_blank")
+                }
+            </script>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DataEnvio)

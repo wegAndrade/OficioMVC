@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace OficioMVC.Service.Exceptions
 {
-    public class ArquivoOcurrencyException
+    public class ArquivoOcurrencyException: SystemException
     {
+        public ArquivoOcurrencyException(string message): base(message)
+        {
+
+        }
     }
 }
