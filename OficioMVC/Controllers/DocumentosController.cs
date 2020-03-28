@@ -30,12 +30,14 @@ namespace OficioMVC.Controllers
 
 
 
+
         public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, UploadFile arquivo)
         {
             _context = context;
             _login = login;
             _documentoService = documentoService;
             _arquivo = arquivo;
+           
         }
 
 
@@ -224,28 +226,19 @@ namespace OficioMVC.Controllers
             return _context.Documento.Any(e => e.Id == id);
         }
 
-        public ActionResult DownloadFile(string arquivo)
+        public ActionResult Download(string CaminhoArq)
         {
-            if (arquivo == null)
-                return Content("filename not present");
-
-            var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),
-                           "wwwroot", "Arquivos", arquivo);
-
-            FileStream fileStream;
-
+            if(CaminhoArq == null)
+            {
+                return RedirectToAction(nameof(Error), new { Message = "Arquivo inexistente faça o Upload do mesmo" });
+            }
             try
             {
-                fileStream = System.IO.File.OpenRead(path);
-            }
-            catch (DirectoryNotFoundException)
+                return _arquivo.Download(CaminhoArq);
+            }catch(IOException e)
             {
-                return new EmptyResult();
+                return RedirectToAction(nameof(Error), new { Message = "Arquivo inexistente faça o Upload do mesmo. " + e.Message });
             }
-
-
-            return File(fileStream, path, arquivo);
         }
 
         public IActionResult Error(string message)

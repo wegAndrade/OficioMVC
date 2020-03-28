@@ -46,7 +46,7 @@
         <dd>
             <li>
                 Download:
-                <a class="btn btn-primary mb-3" onclick="downloadMaterial(this)" name=@Html.DisplayFor(modelItem => Model.CaminhoArq)><span class="glyphicon glyphicon-download-alt"></span></a>
+                @Html.ActionLink("Documentos", "Download", new { Model.CaminhoArq})
             </li>
 
             <script>
@@ -54,8 +54,8 @@
                 {
                     var path = e.name;
                     console.log(e.name);
-                 var arquivo = path.split("arquivos/")[1];
-                 window.open("/Controller/Documentos/DownloadFile/?arquivo=" + arquivo, "_blank")
+                    var arquivo = path.split("arquivos/")[1];
+                    window.open("/Documentos/Download/")
                 }
             </script>
         </dd>

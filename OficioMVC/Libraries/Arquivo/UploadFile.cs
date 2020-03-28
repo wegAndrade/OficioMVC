@@ -58,6 +58,15 @@ namespace OficioMVC.Libraries.Arquivo
 
         }
 
+        public ActionResult Download(string Arq)
+        {
+            string caminho = _appEnvironment.WebRootPath + "\\Arquivos\\" + Arq;
+
+            FileStream arquivo = new FileStream(caminho, FileMode.Open);
+            FileStreamResult download = new FileStreamResult(arquivo, "application/PNG"); // O segundo parâmetro é o Mime type
+            download.FileDownloadName = "1_2020.PNG";
+            return download;
+        }
         public bool FileExist(string file)
         {
             string Caminho_web = _appEnvironment.WebRootPath;
