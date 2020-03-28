@@ -1,11 +1,19 @@
-﻿@model OficioMVC.Models.Documento
-
+﻿
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "SubstituirArquivo";
 }
 
-<h2>Details</h2>
 
+
+@model OficioMVC.Models.Documento
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+    <h2>Trocar Arquivo</h2>
+
+<h3>Deseja alterar o arquivo deste documento?</h3>
 <div>
     <h4>Documento</h4>
     <hr />
@@ -44,12 +52,7 @@
             @Html.DisplayNameFor(model => model.CaminhoArq)
         </dt>
         <dd>
-            <li>
-                Download:
-                @Html.ActionLink("Documentos", "Download", new { Model.CaminhoArq})
-            </li>
-
-            
+            @Html.DisplayFor(model => model.CaminhoArq)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DataEnvio)
@@ -70,8 +73,10 @@
             @Html.DisplayFor(model => model.Usuario.user_login)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="SubstituirArquivo" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>

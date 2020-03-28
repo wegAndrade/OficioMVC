@@ -20,6 +20,14 @@ namespace OficioMVC.Service
         {
             return await _context.Documento.Include(user => user.Usuario).FirstOrDefaultAsync(x => x.Ano == ano && x.Numeracao == numeracao);
         }
+        public async Task<Documento> FindById(int id)
+        {
+            var documento = await _context.Documento
+            .Include(d => d.Usuario)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+            return documento;
+        }
         public async Task<List<Documento>> FindAllAsync()
         {
             return await _context.Documento.ToListAsync();
@@ -74,6 +82,15 @@ namespace OficioMVC.Service
             }
             var max = max1.Max(x => x.Numeracao);
             return max + 1;
+        }
+
+        public string GetCaminhoArq(int id)
+        {
+
+            var documento = _context.Documento.AsNoTracking()
+            .FirstOrDefault(m => m.Id == id);
+            _context.SaveChanges();
+            return  documento.CaminhoArq;
         }
         
     }

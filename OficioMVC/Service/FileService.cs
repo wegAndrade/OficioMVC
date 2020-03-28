@@ -8,15 +8,17 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OficioMVC.Libraries.Arquivo
+namespace OficioMVC.Service
 {
-    public class UploadFile
+    public class FileService
 
     {
+        private string Caminho { get; }
         IHostingEnvironment _appEnvironment;
-        public UploadFile(IHostingEnvironment appEnviroment)
+        public FileService(IHostingEnvironment appEnviroment)
         {
             _appEnvironment = appEnviroment;
+            Caminho = _appEnvironment.WebRootPath + "\\Arquivos\\";
         }
         public string Upload(IFormFile file, string FileNewname)
         {
@@ -24,12 +26,13 @@ namespace OficioMVC.Libraries.Arquivo
             var fileName = System.IO.Path.GetFileName(file.FileName);
 
 
-           string ext =  Path.GetExtension(fileName);
-            string Caminho_web = _appEnvironment.WebRootPath;
+            string ext = Path.GetExtension(fileName);
+
+
 
             string FileNameExt = FileNewname + ext;
 
-            string Destino = Caminho_web + "\\Arquivos\\" + FileNameExt;
+            string Destino = Caminho + FileNameExt;
 
 
 
@@ -39,7 +42,7 @@ namespace OficioMVC.Libraries.Arquivo
             if (System.IO.File.Exists(fileName))
             {
                 File.Delete(fileName);
-                 
+
             }
 
 
@@ -47,36 +50,71 @@ namespace OficioMVC.Libraries.Arquivo
             using (var localFile = System.IO.File.OpenWrite(fileName))
             using (var uploadedFile = file.OpenReadStream())
             {
-                
+
                 uploadedFile.CopyTo(localFile);
             }
-           
-            
-                Directory.Move(fileName, Destino);
-                 return FileNameExt;
+
+
+            Directory.Move(fileName, Destino);
+            return FileNameExt;
 
 
         }
 
         public ActionResult Download(string Arq)
         {
-            string caminho = _appEnvironment.WebRootPath + "\\Arquivos\\" + Arq;
+            string caminho = Caminho + Arq;
 
             FileStream arquivo = new FileStream(caminho, FileMode.Open);
             FileStreamResult download = new FileStreamResult(arquivo, "application/PNG"); // O segundo parâmetro é o Mime type
-            download.FileDownloadName = "1_2020.PNG";
+            download.FileDownloadName = Arq;
             return download;
         }
         public bool FileExist(string file)
         {
-            string Caminho_web = _appEnvironment.WebRootPath;
-            string FileLocal = Caminho_web + "\\Arquivos\\" + file;
+
+            string FileLocal = Caminho + file;
 
             if (System.IO.File.Exists(FileLocal))
             {
                 return true;
             }
             return false;
+        }
+
+        public bool DeleteFile(string file)
+        {
+            if (FileExist(Caminho + file))
+            {
+                try
+                {
+                    File.Delete(Caminho + file);
+                    return true;
+                }
+
+                catch (IOException )
+                {
+                    return false;
+                }
+            }
+            return false;
+
+        }
+        public String ReplaceFile(IFormFile file, string FileNewname, string FileOld)
+        {
+
+            DeleteFile(FileOld);
+            try
+            {
+                return Upload(file, FileNewname);
+            }
+            catch (IOException )
+            {
+                return null;
+            }
+
+
+
         }
     }
 }

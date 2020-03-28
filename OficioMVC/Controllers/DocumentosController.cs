@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using OficioMVC.Libraries.Arquivo;
 using OficioMVC.Libraries.Filtro;
 using OficioMVC.Libraries.Login;
 using OficioMVC.Models;
@@ -26,18 +25,18 @@ namespace OficioMVC.Controllers
         private readonly OficioMVCContext _context;
         private readonly LoginUser _login;
         private readonly DocumentoService _documentoService;
-        UploadFile _arquivo;
+        private readonly FileService _arquivo;
 
 
 
 
-        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, UploadFile arquivo)
+        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, FileService arquivo)
         {
             _context = context;
             _login = login;
             _documentoService = documentoService;
             _arquivo = arquivo;
-           
+
         }
 
 
@@ -150,29 +149,38 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (file != null)
+                    {
+                        string fileNewName = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
+                        string fileNameExt;
+                        try
+                        {
+                            fileNameExt = _arquivo.Upload(file, fileNewName);
+                        }
+                        catch (IOException e)
+                        {
+                            return RedirectToAction(nameof(Error), new { message = "Documento já existe" + e.Message });
+                        }
+                        if (_arquivo.FileExist(fileNameExt))
+                        {
+                            documento.CaminhoArq = fileNameExt;
+                        }
+                    }
+                    if(file == null)
+                    {
+                        documento.CaminhoArq = 
+                           _documentoService.GetCaminhoArq(id);
+                    }
+                    
 
-                    string fileNewName = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
-                    string fileNameExt;
-                    try
-                    {
-                        fileNameExt = _arquivo.Upload(file, fileNewName);
-                    }
-                    catch (IOException e)
-                    {
-                        return RedirectToAction(nameof(Error), new { message = "Documento já existe"  + e.Message});
-                    }
-                    if (_arquivo.FileExist(fileNameExt))
-                    {
-                        documento.CaminhoArq = fileNameExt;
-                    }
                     documento.DataAlteracao = DateTime.Now;
-                    _context.Update(documento);
-                    await _context.SaveChangesAsync();
+                     await _documentoService.UpdateAsync(documento);
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -228,19 +236,46 @@ namespace OficioMVC.Controllers
 
         public ActionResult Download(string CaminhoArq)
         {
-            if(CaminhoArq == null)
+            if (CaminhoArq == null)
             {
                 return RedirectToAction(nameof(Error), new { Message = "Arquivo inexistente faça o Upload do mesmo" });
             }
             try
             {
                 return _arquivo.Download(CaminhoArq);
-            }catch(IOException e)
+            }
+            catch (IOException e)
             {
                 return RedirectToAction(nameof(Error), new { Message = "Arquivo inexistente faça o Upload do mesmo. " + e.Message });
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SubstituirArquivo(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var documento = await _context.Documento
+                .Include(d => d.Usuario)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (documento == null)
+            {
+                return NotFound();
+            }
+
+            return View(documento);
+
+        }
+        [HttpPost]
+        public IActionResult SubstituirArquivo(IFormFile file, Documento documento)
+        {
+            string name = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
+            _arquivo.ReplaceFile(file, name, documento.CaminhoArq);
+            return RedirectToAction(nameof(Index));
+        }
         public IActionResult Error(string message)
         {
             var viewModel = new ErrorViewModel
