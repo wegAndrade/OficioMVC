@@ -49,7 +49,7 @@ namespace OficioMVC.Controllers
 
 
 
-
+        //Detalhando o documento selecionado
         // GET: Documentoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -58,9 +58,10 @@ namespace OficioMVC.Controllers
                 return NotFound();
             }
 
-            var documento = await _context.Documento
+            var documento =  await _documentoService.FindById(id);
+           /* var documento = await _context.Documento
                 .Include(d => d.Usuario)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);*/
             if (documento == null)
             {
                 return NotFound();
@@ -70,6 +71,7 @@ namespace OficioMVC.Controllers
         }
 
         // GET: Documentoes/Create
+        //Retornando o formulario para criação de documento, recebe um INT referente ao ENUM do tipo de Documento
         public IActionResult Create(int? T)
         {
 
@@ -82,6 +84,7 @@ namespace OficioMVC.Controllers
             ViewBag.Siga_profs = Usuario;
             return View();
         }
+        // Actions para Criação de cada tipo de Documento
         public IActionResult CreateEdital()
         {
             int T1 = (int)TipoDoc.Edital;
@@ -102,6 +105,7 @@ namespace OficioMVC.Controllers
             int T1 = (int)TipoDoc.Portaria;
             return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
         }
+        //Ãcition para criação do Documento e persistencia no banco de dados
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Documento documento)
@@ -121,6 +125,7 @@ namespace OficioMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        //Edição envio da view de formulario
         // GET: Documentoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -129,18 +134,21 @@ namespace OficioMVC.Controllers
                 return NotFound();
             }
 
-            var documento = await _context.Documento.FindAsync(id);
+            var documento = await _documentoService.FindById(id);
             if (documento == null)
             {
                 return NotFound();
             }
+            //Passando para View a formatação da númeração de documentos
             ViewBag.Doc_identificador = Convert.ToString(documento.Numeracao) + "/" + Convert.ToString(documento.Ano);
-            return View(documento);
+
+        var ViewModel = new DocumentoViewModel { Documento = documento, Usuario = _login.GetUser(), Tipos = _documentoService.GetAllTypes() };
+       ViewModel.teste();
+            return View();
         }
 
         // POST: Documentoes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Editando o Documento, recebe o Arquivo e Salva ele no servidor, altera dados do documento.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Numeracao,Ano,Assunto,Observacoes,Tipo,CaminhoArq,DataEnvio,DataAlteracao,UsuarioId")] Documento documento, IFormFile file)
@@ -149,11 +157,12 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-            
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //verifica se foi enviado arquivo.
                     if (file != null)
                     {
                         string fileNewName = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
@@ -171,16 +180,21 @@ namespace OficioMVC.Controllers
                             documento.CaminhoArq = fileNameExt;
                         }
                     }
-                    if(file == null)
+                    //caso não enviado mantem o caminho de arquivo anterior.
+                    if (file == null)
                     {
-                        documento.CaminhoArq = 
+                        documento.CaminhoArq =
                            _documentoService.GetCaminhoArq(id);
                     }
-                    
+                    if(documento.Tipo != _documentoService.GetTipo(id))
+                    {
+
+                    }
+
 
                     documento.DataAlteracao = DateTime.Now;
-                     await _documentoService.UpdateAsync(documento);
-                   
+                    await _documentoService.UpdateAsync(documento);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OficioMVC.Models;
+using OficioMVC.Models.Enums;
 using OficioMVC.Service.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace OficioMVC.Service
         {
             return await _context.Documento.Include(user => user.Usuario).FirstOrDefaultAsync(x => x.Ano == ano && x.Numeracao == numeracao);
         }
-        public async Task<Documento> FindById(int id)
+        public async Task<Documento> FindById(int? id)
         {
             var documento = await _context.Documento
             .Include(d => d.Usuario)
@@ -84,14 +85,35 @@ namespace OficioMVC.Service
             return max + 1;
         }
 
-        public string GetCaminhoArq(int id)
+        private Documento GetDocumento(int id)
         {
-
             var documento = _context.Documento.AsNoTracking()
             .FirstOrDefault(m => m.Id == id);
             _context.SaveChanges();
+            return documento;
+        }
+        public string GetCaminhoArq(int id)
+        {
+            var documento = GetDocumento(id);
+            
             return  documento.CaminhoArq;
         }
-        
+        public TipoDoc GetTipo(int id)
+        {
+            var documento = GetDocumento(id);
+            return documento.Tipo;
+        }
+        public List<TipoDoc> GetAllTypes()
+        {
+            List<TipoDoc> Tipos = new List<TipoDoc>();
+            foreach (TipoDoc i in Enum.GetValues(typeof(TipoDoc)))
+            {
+                Tipos.Add(i);
+            }
+            return Tipos;
+
+        }
+
+
     }
 }

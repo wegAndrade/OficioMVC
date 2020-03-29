@@ -1,7 +1,10 @@
-﻿@model OficioMVC.Models.Documento
+﻿@model OficioMVC.Models.ViewModels.DocumentoViewModel
+
+@using OficioMVC.Models.Enums;
 
 @{
     ViewData["Title"] = "Edit";
+    
 }
 
 <h2>Edit</h2>
@@ -12,23 +15,33 @@
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Ano" />
-            <input type="hidden" asp-for="Numeracao" />
+            <input type="hidden" asp-for="Documento.Id" />
+            <input type="hidden" asp-for="Documento.Ano" />
+            <input type="hidden" asp-for="Documento.Numeracao" />
             <div class="form-group">
-                <label asp-for="Assunto" class="control-label"></label>
-                <input asp-for="Assunto" class="form-control" />
-                <span asp-validation-for="Assunto" class="text-danger"></span>
+                <label asp-for="Documento.Assunto" class="control-label"></label>
+                <input asp-for="Documento.Assunto" class="form-control" />
+                <span asp-validation-for="Documento.Assunto" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Observacoes" class="control-label"></label>
-                <input asp-for="Observacoes" class="form-control" />
-                <span asp-validation-for="Observacoes" class="text-danger"></span>
+                <label asp-for="Documento.Observacoes" class="control-label"></label>
+                <input asp-for="Documento.Observacoes" class="form-control" />
+                <span asp-validation-for="Documento.Observacoes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <select asp-for="Tipo" class="form-control"></select>
-                <span asp-validation-for="Tipo" class="text-danger"></span>
+          <div class="form-group">
+                <label asp-for="Documento.Tipo" class="control-label"></label>
+                <select asp-for="Documento.Tipo" class="form-control">
+
+
+                    /*@for (int i= 0; i < @Model.Tipos.Count;i++)
+                    {
+                    <option value="@Model.Tipos[i]">
+                        @Model.Tipos[i] 
+                    </option>
+                    }
+
+                </select>
+                <span asp-validation-for="Documento.Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Arquivo PDF!</label>
@@ -37,13 +50,13 @@
          
             <div class="form-group">
 
-                <input type="hidden" asp-for="DataEnvio" class="form-control" />
-                <span asp-validation-for="DataEnvio" class="text-danger"></span>
+                <input type="hidden" asp-for="Documento.DataEnvio" class="form-control" />
+                <span asp-validation-for="Documento.DataEnvio" class="text-danger"></span>
             </div>
             <div class="form-group">
 
-                <input type="hidden" asp-for="UsuarioId" />
-                <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                <input type="hidden" asp-for="Documento.UsuarioId" />
+                <span asp-validation-for="Documento.UsuarioId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" onclick="Verify()" />
