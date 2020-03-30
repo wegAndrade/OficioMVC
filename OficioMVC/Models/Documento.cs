@@ -16,6 +16,7 @@ namespace OficioMVC.Models
         [DisplayFormat(DataFormatString = "{0:000}")]
         public int Numeracao { get; set; }
         public int Ano { get; set; }
+        public StatusDoc Status { get; set; }
         [Required]
         public string Assunto { get; set; }
         public string Observacoes { get; set; }
@@ -46,6 +47,7 @@ namespace OficioMVC.Models
             Assunto = assunto ;
             Usuario = usuario ;
             Tipo = tipo;
+            Status = StatusDoc.Aberto;
         }
 
         public Documento(int id, int numeracao, int ano, string assunto,string observacoes, Siga_profs usuario, TipoDoc tipo, int usuarioId, DateTime dataEnvio)
@@ -59,6 +61,7 @@ namespace OficioMVC.Models
             Observacoes = observacoes;
             UsuarioId = usuarioId;
             DataEnvio = dataEnvio;
+            Status = StatusDoc.Aberto;
         }
     }
 }

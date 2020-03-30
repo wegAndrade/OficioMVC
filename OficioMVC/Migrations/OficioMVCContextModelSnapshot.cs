@@ -38,6 +38,8 @@ namespace OficioMVC.Migrations
 
                     b.Property<string>("Observacoes");
 
+                    b.Property<int>("Status");
+
                     b.Property<int>("Tipo");
 
                     b.Property<int>("UsuarioId");

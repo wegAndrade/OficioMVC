@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OficioMVC.Migrations
 {
-    public partial class teste : Migration
+    public partial class testes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,11 +14,11 @@ namespace OficioMVC.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_login = table.Column<string>(nullable: true),
-                    user_pass = table.Column<string>(nullable: true),
+                    user_login = table.Column<string>(nullable: false),
+                    user_pass = table.Column<string>(nullable: false),
                     user_nicename = table.Column<string>(nullable: true),
-                    ativo = table.Column<int>(nullable: false),
-                    dpto = table.Column<int>(nullable: false)
+                    ativo = table.Column<string>(nullable: true),
+                    dpto = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,30 +31,38 @@ namespace OficioMVC.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Numeracao = table.Column<int>(nullable: false),
                     Ano = table.Column<int>(nullable: false),
-                    Assunto = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    Assunto = table.Column<string>(type: "varchar(250)", nullable: false),
                     Observacoes = table.Column<string>(nullable: true),
+                    Tipo = table.Column<int>(nullable: false),
                     CaminhoArq = table.Column<string>(nullable: true),
                     DataEnvio = table.Column<DateTime>(nullable: false),
-                    UsuarioID = table.Column<int>(nullable: true),
-                    Siga_profs_id = table.Column<int>(nullable: false),
-                    Tipo = table.Column<int>(nullable: false)
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documento", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Documento_Siga_profs_UsuarioID",
-                        column: x => x.UsuarioID,
+                        name: "FK_Documento_Siga_profs_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "Siga_profs",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Documento_UsuarioID",
+                name: "IX_Documento_UsuarioId",
                 table: "Documento",
-                column: "UsuarioID");
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Documento_Numeracao_Ano",
+                table: "Documento",
+                columns: new[] { "Numeracao", "Ano" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

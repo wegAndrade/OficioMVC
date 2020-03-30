@@ -43,7 +43,7 @@ namespace OficioMVC.Controllers
         // GET: Documentoes
         public async Task<IActionResult> Index()
         {
-            var oficioMVCContext = _context.Documento.Include(d => d.Usuario);
+            var oficioMVCContext = _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido);
             return View(await oficioMVCContext.ToListAsync());
         }
 
@@ -115,6 +115,7 @@ namespace OficioMVC.Controllers
             documento.Numeracao = _documentoService.GetNumMax();
             documento.Ano = DateTime.Now.Year;
             documento.DataEnvio = DateTime.Now;
+            documento.Status = StatusDoc.Aberto;
 
             if (ModelState.IsValid)
             {
@@ -144,7 +145,7 @@ namespace OficioMVC.Controllers
 
         var ViewModel = new DocumentoViewModel { Documento = documento, Usuario = _login.GetUser(), Tipos = _documentoService.GetAllTypes() };
        ViewModel.teste();
-            return View();
+            return View(ViewModel);
         }
 
         // POST: Documentoes/Edit/5
@@ -179,17 +180,16 @@ namespace OficioMVC.Controllers
                         {
                             documento.CaminhoArq = fileNameExt;
                         }
+                        documento.Status = StatusDoc.Enviado;
                     }
                     //caso não enviado mantem o caminho de arquivo anterior.
                     if (file == null)
                     {
                         documento.CaminhoArq =
                            _documentoService.GetCaminhoArq(id);
+                        documento.Status = StatusDoc.Aberto;
                     }
-                    if(documento.Tipo != _documentoService.GetTipo(id))
-                    {
-
-                    }
+                   
 
 
                     documento.DataAlteracao = DateTime.Now;
@@ -238,7 +238,8 @@ namespace OficioMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var documento = await _context.Documento.FindAsync(id);
-            _context.Documento.Remove(documento);
+            documento.Status = 0;
+            _context.Documento.Update(documento);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

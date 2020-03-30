@@ -9,8 +9,8 @@ using OficioMVC.Models;
 namespace OficioMVC.Migrations
 {
     [DbContext(typeof(OficioMVCContext))]
-    [Migration("20200309001926_tuts")]
-    partial class tuts
+    [Migration("20200330213551_testes")]
+    partial class testes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,9 +26,13 @@ namespace OficioMVC.Migrations
 
                     b.Property<int>("Ano");
 
-                    b.Property<string>("Assunto");
+                    b.Property<string>("Assunto")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("CaminhoArq");
+
+                    b.Property<DateTime>("DataAlteracao");
 
                     b.Property<DateTime>("DataEnvio");
 
@@ -36,11 +40,15 @@ namespace OficioMVC.Migrations
 
                     b.Property<string>("Observacoes");
 
-                    b.Property<int?>("UsuarioID");
+                    b.Property<int>("Status");
+
+                    b.Property<int>("Tipo");
+
+                    b.Property<int>("UsuarioId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioID");
+                    b.HasIndex("UsuarioId");
 
                     b.HasIndex("Numeracao", "Ano")
                         .IsUnique();
@@ -57,11 +65,13 @@ namespace OficioMVC.Migrations
 
                     b.Property<string>("dpto");
 
-                    b.Property<string>("user_login");
+                    b.Property<string>("user_login")
+                        .IsRequired();
 
                     b.Property<string>("user_nicename");
 
-                    b.Property<string>("user_pass");
+                    b.Property<string>("user_pass")
+                        .IsRequired();
 
                     b.HasKey("ID");
 
@@ -71,8 +81,9 @@ namespace OficioMVC.Migrations
             modelBuilder.Entity("OficioMVC.Models.Documento", b =>
                 {
                     b.HasOne("OficioMVC.Models.Siga_profs", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioID");
+                        .WithMany("Documentos")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -24,9 +24,14 @@ namespace OficioMVC.Service.Seed
             _context.Siga_profs.Add(teste);
 
             Documento documento = new Documento(1, 1, 2020, "Teste de desenvolvimento para criação de ambiente de homologação","Observação de teste", teste,Models.Enums.TipoDoc.Edital,1,DateTime.Now );
-            _context.Documento.Add(documento);
-
+            Documento documento1 = new Documento(2, 2, 2020, "Sou um Edital do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.Edital, 1, DateTime.Now);
+            Documento documento2 = new Documento(3, 3, 2020, "Sou um Edital Externo do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.EditalExterno, 1, DateTime.Now);
+            Documento documento3 = new Documento(4, 4, 2020, "Sou um Edital Interno do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.EditalInterno, 1, DateTime.Now);
+            Documento documento4 = new Documento(5,  5, 2020, "Sou um Oficio do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.Oficio, 1, DateTime.Now);
+            Documento documento5 = new Documento(6, 6, 2020, "Sou um Memorando  do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.Memorando, 1, DateTime.Now);
+            Documento documento6 = new Documento(7, 7, 2020, "Sou uma Portaria  do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.Portaria, 1, DateTime.Now);
             
+            _context.Documento.AddRange(documento,documento1,documento2,documento3,documento4,documento5,documento6);
 
             _context.SaveChanges();
 
