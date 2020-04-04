@@ -44,13 +44,13 @@ namespace OficioMVC.Models
             Id = id;
             Numeracao = numeracao;
             Ano = ano;
-            Assunto = assunto ;
-            Usuario = usuario ;
+            Assunto = assunto;
+            Usuario = usuario;
             Tipo = tipo;
             Status = StatusDoc.Aberto;
         }
 
-        public Documento(int id, int numeracao, int ano, string assunto,string observacoes, Siga_profs usuario, TipoDoc tipo, int usuarioId, DateTime dataEnvio)
+        public Documento(int id, int numeracao, int ano, string assunto, string observacoes, Siga_profs usuario, TipoDoc tipo, int usuarioId, DateTime dataEnvio)
         {
             Id = id;
             Numeracao = numeracao;
