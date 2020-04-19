@@ -28,20 +28,25 @@ function SendDocument() {
 
         }
     }    
-    axios.post(url,doc.document , headers = { 'RequestVerificationToken': GetToken() })
+     axios.post(url,doc.document , headers = { 'RequestVerificationToken': GetToken() })
         .then(function (response) {
 
             let modal = document.getElementById('myModalSucess');
             
-            console.log(response);
+            console.log(response.data.Usuario.user_nicename);
 
-            $('.result').append(`Seu documento de númeração ${response.data.id} e descrição: ${response.data.description} foi enviado as ${response.data.sendDate}`);
-            console.log(modal);
+            let RespostaElement = document.getElementById('Resposta');
+            let RespostaText = document.createTextNode(`Documento enviado númeração: ${response.data.Numeracao}/${response.data.Ano}`);
+            RespostaElement.appendChild(RespostaText);
+            let UsuarioElement = document.getElementById('Usuario');
+            let UsuarioText = document.createTextNode(`Usuario de envio: ${response.data.Usuario.user_nicename}`);
+            UsuarioElement.appendChild(UsuarioText);
             $(modal).modal('show');
 
 
 
         }).catch(function (error) {
+            console.log(error);
             let modal = document.getElementById('myModalError');
             let resposta = error.data;
             $("#message").append(resposta);

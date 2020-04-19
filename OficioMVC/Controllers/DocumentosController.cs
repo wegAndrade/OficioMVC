@@ -122,7 +122,7 @@ namespace OficioMVC.Controllers
                 {
                     await _documentoService.InsertAsync(documento);
 
-
+                    documento.Usuario = _login.GetUser();
                     return Json(documento);
                 }
 
