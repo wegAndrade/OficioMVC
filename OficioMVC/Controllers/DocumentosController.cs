@@ -58,10 +58,10 @@ namespace OficioMVC.Controllers
                 return NotFound();
             }
 
-            var documento =  await _documentoService.FindById(id);
-           /* var documento = await _context.Documento
-                .Include(d => d.Usuario)
-                .FirstOrDefaultAsync(m => m.Id == id);*/
+            var documento = await _documentoService.FindById(id);
+            /* var documento = await _context.Documento
+                 .Include(d => d.Usuario)
+                 .FirstOrDefaultAsync(m => m.Id == id);*/
             if (documento == null)
             {
                 return NotFound();
@@ -72,7 +72,7 @@ namespace OficioMVC.Controllers
 
         // GET: Documentoes/Create
         //Retornando o formulario para criação de documento, recebe um INT referente ao ENUM do tipo de Documento
-        public IActionResult Create(int? T)
+        public IActionResult Create(int T)
         {
 
             int typeId = (int)T;
@@ -107,8 +107,7 @@ namespace OficioMVC.Controllers
         }
         //Ãcition para criação do Documento e persistencia no banco de dados
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Documento documento)
+        public async Task<JsonResult> Create([FromBody] Documento documento)
         {
 
             documento.UsuarioId = _login.GetUser().ID;
@@ -119,11 +118,27 @@ namespace OficioMVC.Controllers
 
             if (ModelState.IsValid)
             {
+                try
+                {
+                    await _documentoService.InsertAsync(documento);
 
-                await _documentoService.InsertAsync(documento);
+
+                    return Json(documento);
+                }
+
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+
+                    return Json(e.Message);
+                }
+
 
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json("error:errou!");
+            }
         }
 
         //Edição envio da view de formulario
@@ -143,8 +158,8 @@ namespace OficioMVC.Controllers
             //Passando para View a formatação da númeração de documentos
             ViewBag.Doc_identificador = Convert.ToString(documento.Numeracao) + "/" + Convert.ToString(documento.Ano);
 
-        var ViewModel = new DocumentoViewModel { Documento = documento, Usuario = _login.GetUser(), Tipos = _documentoService.GetAllTypes() };
-       ViewModel.teste();
+            var ViewModel = new DocumentoViewModel { Documento = documento, Usuario = _login.GetUser(), Tipos = _documentoService.GetAllTypes() };
+            ViewModel.teste();
             return View(ViewModel);
         }
 
@@ -189,7 +204,7 @@ namespace OficioMVC.Controllers
                            _documentoService.GetCaminhoArq(id);
                         documento.Status = StatusDoc.Aberto;
                     }
-                   
+
 
 
                     documento.DataAlteracao = DateTime.Now;
@@ -198,7 +213,7 @@ namespace OficioMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DocumentoExists(documento.Id))
+                    if (!_documentoService.Exist(documento.Id))
                     {
                         return NotFound();
                     }
@@ -244,10 +259,6 @@ namespace OficioMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DocumentoExists(int id)
-        {
-            return _context.Documento.Any(e => e.Id == id);
-        }
 
         public ActionResult Download(string CaminhoArq)
         {

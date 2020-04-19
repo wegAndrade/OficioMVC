@@ -113,6 +113,17 @@ namespace OficioMVC.Service
             return Tipos;
 
         }
+        public bool Exist(int id)
+        {
+            var obj = _context.Documento.FirstOrDefault(x => x.Id == id);
+            if(obj == null)
+            {
+                return false;
+            }
+            
+                return true;
+            
+        }
 
 
     }

@@ -8,27 +8,38 @@
 
 <h2>@ViewData["Title"]</h2>
 
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
 <h4>Documento</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form class="form-new">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="RequestVerificationToken"
+                   name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
             <div class="form-group">
                 <label asp-for="Documento.Assunto" class="control-label"></label>
-                <input type="text" asp-for="Documento.Assunto" class="form-control" />
+                <input type="text" asp-for="Documento.Assunto" class="form-control" id="input-assunto"/>
                 <span asp-validation-for="Documento.Assunto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Documento.Observacoes" class="control-label"></label>
-                <input asp-for="Documento.Observacoes" class="form-control" />
+                <input asp-for="Documento.Observacoes" class="form-control"id="input-obs" />
                 <span asp-validation-for="Documento.Observacoes" class="text-danger"></span>
             </div>
             @if (typeId == 0)
             {
                 <div class="form-group">
                     <label asp-for="Documento.Tipo" class="control-label"></label>
-                    <select asp-for="Documento.Tipo" class="form-control">
+                    <select asp-for="Documento.Tipo" class="form-control" id='input-tipo'>
                         <option value="0">Edital</option>
                         <option value="1">Edital Interno</option>
                         <option value="2">Edital Externo</option>
@@ -40,13 +51,13 @@
             {
                 <div class="form-group">
                     <label asp-for="Documento.Tipo" class="control-label"></label>
-                    <select asp-for="Documento.Tipo" class="form-control" disabled>
+                    <select asp-for="Documento.Tipo" class="form-control" disabled class="form-control" id='input-tipo'>
                         <option value="@typeId" selected>@typeName</option>
                     </select>
                 </div>
             }
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" asp-controller="Documentos" />
+                <input type="submit" id="Create" class="btn btn-default" />
             </div>
         </form>
     </div>
@@ -58,4 +69,55 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="module" src="~/js/DocumentosScript/Create.js"></script>
+    <script  src="~/js/DocumentosScript/Create.js"></script>
+    <script>
+        $("#Create").click(function (e) {
+            //Evita Recarregar a página
+            e.preventDefault();
+            SendDocument();
+        })
+    </script>
 }
+
+
+
+<div id="myModalError" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Erro</h4>
+            </div>
+            <div class="modal-body">
+                <div class="Message"></div>
+                <p class="text-warning"><small>erro ao enviar formulário </small></p>
+                <div id="message"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal HTML Sucesso -->
+<div id="myModalSucess" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sucesso </h4>
+            </div>
+            <div class="modal-body">
+                <p>Tarefas realizadas com sucesso. </p>
+                <p class="text-warning"><small>Formulário enviado com sucesso</small></p>
+                <div class="Numeracao"></div>
+                <div class="DataEnvio"></div>
+                <div class="Usuario"></div>
+            </div>
+            <div class="modal-footer">
+                <a type="submit" id="btnCreate" class="btn btn-default" asp-action="Index" asp-controller="Home" value="Go Home" />
+            </div>
+        </div>
+    </div>
+</div> 
