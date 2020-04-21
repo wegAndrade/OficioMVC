@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Views\Siga_profs\" />
     <Folder Include="wwwroot\Arquivos\" />
+    <Folder Include="wwwroot\js\ModalScript\" />
   </ItemGroup>
 
 </Project>

@@ -71,13 +71,14 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="module" src="~/js/DocumentosScript/Create.js"></script>
+     <script type="module" src="~/js/ModalScript/Modal.js"></script>
     <script  src="~/js/DocumentosScript/Create.js"></script>
     <script>
         $("#Create").click(function (e) {
             //Evita Recarregar a página
             e.preventDefault();
             SendDocument();
-        })
+        });
     </script>
 }
 
@@ -115,7 +116,7 @@
                 <div Id="Usuario"></div>
             </div>
             <div class="modal-footer">
-                <a type="submit" id="btnCreate" class="btn btn-default" asp-action="Index" asp-controller="Home" value="Go Home" />
+                <a type="submit" id="btnCreate" class="btn btn-default" asp-action="Index" asp-controller="Documentos" value="Go Home"><button class='btn btn-danger'>Fechar</button></a>
             </div>
         </div>
     </div>

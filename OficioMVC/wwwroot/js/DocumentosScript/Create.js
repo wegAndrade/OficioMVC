@@ -1,4 +1,4 @@
-﻿//import Document from './Document.js';
+﻿
 
 function GetToken() {
     let Token = document.querySelector('body form input[name="RequestVerificationToken"').value;
