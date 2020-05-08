@@ -1,20 +1,32 @@
-﻿function SendDocument() {
-    let url = '/Documentos/Create';
-    let doc =
-    { 
-    document:
+﻿function EditDocument() {
+    let url = '/Documentos/Edit';
+    
+      var  documento:
         {
-        Assunto: getAssunto(),
-        Observacoes: getObservacoes(),
-        Tipo: getTipo()
+            Id: `${getId()}`,
+            Numeracao: `${getNumeracao()}`;
+            Ano: `${getAno()}`;
+            Assunto: `${getAssunto()}`;
+            Observacoes: `${getObservacoes()}`;
+            Tipo: `${getTipo()}`;
+            DataEnvio: `${getDataEnvio()}`;
+            UsuarioId: `${getUsuarioId()}`
+    };
+    console.log(this.documento);
+    
+    //var data = new FormData();
+    //data.append('file', getArquivo());
 
-        }
-    }    
-     axios.post(url,doc.document , headers = { 'RequestVerificationToken': GetToken() })
+    //console.log(`${url}/${getId()}`);
+   
+
+    //console.log(data);
+
+    axios.post(`${url}/${doc.documento.Id}`, this.documento)
         .then(function (response) {
 
             let modal = document.getElementById('myModalSucess');
-            
+
             console.log(response.data.Usuario.user_nicename);
 
             let RespostaElement = document.getElementById('Resposta');
@@ -39,11 +51,4 @@
 
 
 
-class Document
-{
- constructor (assunto, tipo,observacoes){
-     this.assunto = assunto;
-     this.tipo = tipo;
-     this.observacoes = observacoes;
- }
-}
+

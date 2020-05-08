@@ -29,6 +29,11 @@ namespace OficioMVC.Service
 
             return documento;
         }
+        public bool DocumentoExists(int id)
+        {
+            return _context.Documento.Any(e => e.Id == id);
+        }
+
         public async Task<List<Documento>> FindAllAsync()
         {
             return await _context.Documento.ToListAsync();
