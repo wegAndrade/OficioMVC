@@ -1,17 +1,20 @@
 ﻿function EditDocument() {
     let url = '/Documentos/Edit';
     
-      var  documento:
+      var  doc =
+      {
+      document:
         {
-            Id: `${getId()}`,
-            Numeracao: `${getNumeracao()}`;
-            Ano: `${getAno()}`;
-            Assunto: `${getAssunto()}`;
-            Observacoes: `${getObservacoes()}`;
-            Tipo: `${getTipo()}`;
-            DataEnvio: `${getDataEnvio()}`;
-            UsuarioId: `${getUsuarioId()}`
-    };
+            Id: getId(),
+            Numeracao: getNumeracao(),
+            Ano: getAno(),
+            Assunto:getAssunto(),
+            Observacoes: getObservacoes(),
+            Tipo: getTipo(),
+            DataEnvio: getDataEnvio(),
+            UsuarioId: getUsuarioId()
+        } 
+      };
     console.log(this.documento);
     
     //var data = new FormData();
