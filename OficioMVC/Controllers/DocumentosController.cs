@@ -164,71 +164,6 @@ namespace OficioMVC.Controllers
             return View(ViewModel);
         }
 
-        // POST: Documentoes/Edit/5
-        //Editando o Documento, recebe o Arquivo e Salva ele no servidor, altera dados do documento.
-        //[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        //public async Task<JsonResult> Edit(int id, [FromBody] Documento documento, IFormFile file)
-        //{
-        //    if (id != documento.Id)
-        //    {
-        //        return Json("ERROR:NOT FOUND!");
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            //verifica se foi enviado arquivo.
-        //            if (file != null)
-        //            {
-        //                string fileNewName = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
-        //                string fileNameExt;
-        //                try
-        //                {
-        //                    fileNameExt = _arquivo.Upload(file, fileNewName);
-        //                }
-        //                catch (IOException e)
-        //                {
-        //                    return Json( "ERROR:Documento já existe" + e.Message );
-        //                }
-        //                if (_arquivo.FileExist(fileNameExt))
-        //                {
-        //                    documento.CaminhoArq = fileNameExt;
-        //                }
-        //                documento.Status = StatusDoc.Enviado;
-        //            }
-        //            //caso não enviado mantem o caminho de arquivo anterior.
-        //            if (file == null)
-        //            {
-        //                documento.CaminhoArq =
-        //                   _documentoService.GetCaminhoArq(id);
-        //                documento.Status = StatusDoc.Aberto;
-        //            }
-
-
-
-        //            documento.DataAlteracao = DateTime.Now;
-        //            await _documentoService.UpdateAsync(documento);
-
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!_documentoService.Exist(documento.Id))
-        //            {
-        //                return Json("ERROR:NOT FOUND!");
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return  Json("ERROR:INVALID!");
-        //    }
-
-        //    return Json(documento);
-        //}
-
         // GET: Documentoes/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -287,7 +222,7 @@ namespace OficioMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = documento.Id });
             }
             ViewData["UsuarioId"] = new SelectList(_context.Siga_profs, "ID", "user_login", documento.UsuarioId);
             return View(documento);
