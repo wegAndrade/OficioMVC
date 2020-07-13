@@ -75,3 +75,48 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@{
+    if(ViewBag.alterado)
+    {
+        @section Scripts
+        {
+            <script src="~/js/ModalScript/Modal.js"></script>
+            <script>
+                 let modal = document.getElementById('myModalSucess');
+                    abrirModal(modal);
+            </script>   
+        }
+    }
+}
+
+<!-- Modal HTML Sucesso -->
+<div id="myModalSucess" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sucesso </h4>
+            </div>
+            <div class="modal-body">
+                <p>Tarefas realizadas com sucesso. </p>
+                <p class="text-warning"><small>Formulário enviado com sucesso</small></p>
+                <div Id="Resposta">
+                    Documento enviado númeração:
+                     @Html.DisplayFor(model => model.Numeracao)
+                    /@Html.DisplayFor(model => model.Ano)
+                </div>
+                <div Id="Usuario">
+                    Usuario de envio: 
+                    @Html.DisplayFor(model => model.Usuario.user_login)
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a type="submit" id="btnCreate" class="btn btn-default" ><button class='btn btn-danger'onClick="fecharModal(modal)">Fechar</button></a>
+            </div>
+        </div>
+    </div>
+
+        }
+
+    }
+}

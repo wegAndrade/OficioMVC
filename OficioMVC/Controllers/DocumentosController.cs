@@ -51,7 +51,7 @@ namespace OficioMVC.Controllers
 
         //Detalhando o documento selecionado
         // GET: Documentoes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, Boolean alterado)
         {
             if (id == null)
             {
@@ -66,7 +66,10 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-
+            if(alterado)
+            {
+                @ViewBag.alterado = alterado;
+            }
             return View(documento);
         }
 
@@ -222,7 +225,7 @@ namespace OficioMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", new { id = documento.Id });
+                return RedirectToAction("Details", new { id = documento.Id,alterado = true });
             }
             ViewData["UsuarioId"] = new SelectList(_context.Siga_profs, "ID", "user_login", documento.UsuarioId);
             return View(documento);
