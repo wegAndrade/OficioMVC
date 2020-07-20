@@ -1,4 +1,3 @@
-console.log('cheguei aqui');
 function abrirModal(modal){
   $(modal).modal('show');
 }
