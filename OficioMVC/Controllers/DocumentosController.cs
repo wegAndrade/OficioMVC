@@ -16,6 +16,7 @@ using OficioMVC.Models;
 using OficioMVC.Models.Enums;
 using OficioMVC.Models.ViewModels;
 using OficioMVC.Service;
+using System.Web.Mvc;
 
 namespace OficioMVC.Controllers
 {
@@ -26,9 +27,6 @@ namespace OficioMVC.Controllers
         private readonly LoginUser _login;
         private readonly DocumentoService _documentoService;
         private readonly FileService _arquivo;
-
-
-
 
         public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, FileService arquivo)
         {
@@ -41,6 +39,7 @@ namespace OficioMVC.Controllers
 
 
         // GET: Documentoes
+       
         public async Task<IActionResult> Index()
         {
             var oficioMVCContext = _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido);
@@ -74,6 +73,8 @@ namespace OficioMVC.Controllers
         }
 
         // GET: Documentoes/Create
+
+      
         //Retornando o formulario para criação de documento, recebe um INT referente ao ENUM do tipo de Documento
         public IActionResult Create(int T)
         {
@@ -111,7 +112,7 @@ namespace OficioMVC.Controllers
         //Action para criação do Documento e persistencia no banco de dados
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        //[UsarioAcesso]
+        [UsuarioAcesso]
         public async Task<JsonResult> Create([FromBody] Documento documento)
         {
 
