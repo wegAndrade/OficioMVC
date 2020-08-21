@@ -108,9 +108,10 @@ namespace OficioMVC.Controllers
             int T1 = (int)TipoDoc.Portaria;
             return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
         }
-        //Ãcition para criação do Documento e persistencia no banco de dados
+        //Action para criação do Documento e persistencia no banco de dados
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        //[UsarioAcesso]
         public async Task<JsonResult> Create([FromBody] Documento documento)
         {
 

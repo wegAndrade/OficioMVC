@@ -29,7 +29,7 @@ namespace OficioMVC.Models
         public string ativo { get; set; }
         [JsonProperty("dpto")]
         public string dpto { get; set; }
-        //public char acesso { get; set; }
+        public bool master { get; set; }
         public ICollection<Documento> Documentos { get; set; } = new List<Documento>();
 
         public Siga_profs(int iD, string user_login, string user_pass, string user_nicename, string ativo, string dpto)
@@ -40,7 +40,7 @@ namespace OficioMVC.Models
             this.user_nicename = user_nicename ;
             this.ativo = ativo;
             this.dpto = dpto;
-            //this.acesso = acesso;
+            this.master = false;
         }
         public Siga_profs()
         {
