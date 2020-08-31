@@ -22,8 +22,8 @@ namespace OficioMVC.Controllers
         public HomeController(Siga_profsService profsService, OficioMVCContext context, HashPass hash, LoginUser login)
         {
             _profsService = profsService;
-            _context = context;
             _hash = hash;
+            _context = context;
             _login = login;
 
         }
@@ -113,5 +113,7 @@ namespace OficioMVC.Controllers
         {
             return View();
         }
+
+        
     }
 }

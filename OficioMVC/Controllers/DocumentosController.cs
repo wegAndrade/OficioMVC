@@ -27,27 +27,27 @@ namespace OficioMVC.Controllers
         private readonly LoginUser _login;
         private readonly DocumentoService _documentoService;
         private readonly FileService _arquivo;
+        private readonly Siga_profsService _user;
+        private readonly HashPass _hash;
 
-        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, FileService arquivo)
+        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, FileService arquivo, Siga_profsService user, HashPass hash)
         {
             _context = context;
             _login = login;
             _documentoService = documentoService;
             _arquivo = arquivo;
-
+            _user = user;
+            _hash = hash;
         }
 
 
         // GET: Documentoes
-       
+
         public async Task<IActionResult> Index()
         {
             var oficioMVCContext = _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido);
             return View(await oficioMVCContext.ToListAsync());
         }
-
-
-
         //Detalhando o documento selecionado
         // GET: Documentoes/Details/5
         public async Task<IActionResult> Details(int? id, Boolean alterado)
@@ -65,16 +65,13 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-            if(alterado)
+            if (alterado)
             {
                 @ViewBag.alterado = alterado;
             }
             return View(documento);
         }
-
         // GET: Documentoes/Create
-
-      
         //Retornando o formulario para criação de documento, recebe um INT referente ao ENUM do tipo de Documento
         public IActionResult Create(int T)
         {
@@ -109,10 +106,8 @@ namespace OficioMVC.Controllers
             int T1 = (int)TipoDoc.Portaria;
             return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
         }
-        //Action para criação do Documento e persistencia no banco de dados
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        [UsuarioAcesso]
         public async Task<JsonResult> Create([FromBody] Documento documento)
         {
 
@@ -146,10 +141,9 @@ namespace OficioMVC.Controllers
                 return Json("error:errou!");
             }
         }
-
         //Edição envio da view de formulario
         // GET: Documentoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, bool? authorization)
         {
             if (id == null)
             {
@@ -161,6 +155,15 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
+            if (authorization == false || authorization == null)
+            {
+                if (documento.Status == StatusDoc.Enviado || documento.Status == StatusDoc.Excluido)
+                {
+                    return RedirectToAction("Authorization", "Siga_profs", new { id = documento.Id });
+                    
+
+                }
+            }
             //Passando para View a formatação da númeração de documentos
             ViewBag.Doc_identificador = Convert.ToString(documento.Numeracao) + "/" + Convert.ToString(documento.Ano);
 
@@ -168,9 +171,10 @@ namespace OficioMVC.Controllers
             ViewModel.teste();
             return View(ViewModel);
         }
-
+                
         // GET: Documentoes/Delete/5
         [HttpPost]
+        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Numeracao,Ano,Assunto,Observacoes,Tipo,CaminhoArq,DataEnvio,DataAlteracao,UsuarioId")] Documento documento, IFormFile file)
         {
@@ -181,6 +185,7 @@ namespace OficioMVC.Controllers
 
             if (ModelState.IsValid)
             {
+                
                 try
                 {
                     //verifica se foi enviado arquivo.
@@ -232,6 +237,18 @@ namespace OficioMVC.Controllers
             ViewData["UsuarioId"] = new SelectList(_context.Siga_profs, "ID", "user_login", documento.UsuarioId);
             return View(documento);
         }
+      
+        // POST: Documentoes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var documento = await _context.Documento.FindAsync(id);
+            documento.Status = 0;
+            _context.Documento.Update(documento);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -248,18 +265,6 @@ namespace OficioMVC.Controllers
             }
 
             return View(documento);
-        }
-
-        // POST: Documentoes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var documento = await _context.Documento.FindAsync(id);
-            documento.Status = 0;
-            _context.Documento.Update(documento);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
 
