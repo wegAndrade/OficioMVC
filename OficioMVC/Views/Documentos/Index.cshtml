@@ -1,16 +1,11 @@
 ﻿@model IEnumerable<OficioMVC.Models.Documento>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h2>Index</h2>
-
+<style src="~/css/index-doc.css"></style>
 <p>
-    <a asp-action="CreateEdital">Create Edital</a>
-    <a asp-action="CreateOficio">Create Oficio</a>
-    <a asp-action="CreateMemorando">Create Memorando</a>
-    <a asp-action="CreatePortaria">Create Portaria</a>
+    <button type="button" class="btn btn-danger" asp-action="CreateEdital">Novo Edital</button>
+    <button type="button" class="btn btn-outline-danger" asp-action="CreateOficio">Novo Oficio</button>
+    <button type="button" class="btn btn-danger" asp-action="CreateMemorando">Novo Memorando</button>
+    <button type="button" class="btn btn-outline-danger" asp-action="CreatePortaria">Novo Portaria</button>
 </p>
 <table class="table">
     <thead>
@@ -64,9 +59,9 @@
                 @Html.DisplayFor(modelItem => item.Usuario.user_login)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"><img src="~/images/Icons/edit-2.svg" width="20px" height="20px"></a> |
+                <a asp-action="Details" asp-route-id="@item.Id"><img src="~/images/Icons/search-outline.svg" width="20px" height="20px"></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"><img src="~/images/Icons/trash-2-outline.svg" width="20px" height="20px"></a>
             </td>
         </tr>
 }
