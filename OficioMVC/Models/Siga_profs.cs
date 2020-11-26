@@ -42,6 +42,16 @@ namespace OficioMVC.Models
             this.dpto = dpto;
             this.master = false;
         }
+        public Siga_profs(int iD, string user_login, string user_pass, string user_nicename, string ativo, string dpto,bool Master)
+        {
+            ID = iD;
+            this.user_login = user_login;
+            this.user_pass = user_pass;
+            this.user_nicename = user_nicename;
+            this.ativo = ativo;
+            this.dpto = dpto;
+            this.master = Master;
+        }
         public Siga_profs()
         {
 
