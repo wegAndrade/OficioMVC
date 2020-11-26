@@ -42,11 +42,11 @@ namespace OficioMVC.Controllers
 
 
         // GET: Documentoes
-
+        //Retorna todos documentos (não excluidos) 
         public async Task<IActionResult> Index()
         {
-            var oficioMVCContext = _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido);
-            return View(await oficioMVCContext.ToListAsync());
+            var oficioMVCContext = _documentoService.FindAllAsync(true);
+            return View(await oficioMVCContext);
         }
         //Detalhando o documento selecionado
         // GET: Documentoes/Details/5
@@ -58,9 +58,7 @@ namespace OficioMVC.Controllers
             }
 
             var documento = await _documentoService.FindById(id);
-            /* var documento = await _context.Documento
-                 .Include(d => d.Usuario)
-                 .FirstOrDefaultAsync(m => m.Id == id);*/
+           
             if (documento == null)
             {
                 return NotFound();
@@ -138,11 +136,12 @@ namespace OficioMVC.Controllers
             }
             else
             {
-                return Json("error:errou!");
+                return Json("error:erro!");
             }
         }
         //Edição envio da view de formulario
         // GET: Documentoes/Edit/5
+        //Editando o documento
         public async Task<IActionResult> Edit(int? id, bool? authorization)
         {
             if (id == null)
@@ -155,6 +154,7 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
+            //Verificando se o usuario tem permissão para alterar documento Enviado ou excluido
             if (authorization == false || authorization == null)
             {
                 if (documento.Status == StatusDoc.Enviado || documento.Status == StatusDoc.Excluido)
@@ -211,7 +211,7 @@ namespace OficioMVC.Controllers
                     if (file == null)
                     {
                         documento.CaminhoArq =
-                           _documentoService.GetCaminhoArq(id);
+                          await _documentoService.GetCaminhoArq(id);
                         documento.Status = StatusDoc.Aberto;
                     }
 

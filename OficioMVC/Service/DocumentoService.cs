@@ -16,11 +16,7 @@ namespace OficioMVC.Service
         {
             _context = context;
         }
-
-        public async Task<Documento> FindByNumAsyn(int numeracao, int ano)
-        {
-            return await _context.Documento.Include(user => user.Usuario).FirstOrDefaultAsync(x => x.Ano == ano && x.Numeracao == numeracao);
-        }
+        //Selecionar por ID
         public async Task<Documento> FindById(int? id)
         {
             var documento = await _context.Documento
@@ -29,35 +25,29 @@ namespace OficioMVC.Service
 
             return documento;
         }
+        //Verificar se o documento Existe
         public bool DocumentoExists(int id)
         {
             return _context.Documento.Any(e => e.Id == id);
         }
-
-        public async Task<List<Documento>> FindAllAsync()
+        //Selecionar todos documentos com exceção dos excluidos com base no parametro
+        public async Task<List<Documento>> FindAllAsync(bool exc)
         {
-            return await _context.Documento.ToListAsync();
+            if (exc)
+            {
+                return await _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido).ToListAsync();
+            }
+            return await _context.Documento.Include(d => d.Usuario).ToListAsync();
+
         }
+        //inserir documentos de forma assincrona
         public async Task InsertAsync(Documento obj)
         {
 
             _context.Add(obj);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteAsync(int Numeracao, int ano)
-        {
-            try
-            {
-                var obj = _context.Documento.Find(Numeracao, ano);
-                _context.Remove(obj);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                throw new IntegrityException("Não podemos deletar esse Documento ele possui dados filhos!");
-            }
-
-        }
+        //atualizar de forma assincrona
         public async Task UpdateAsync(Documento obj)
         {
             bool HasAny = await _context.Documento.AnyAsync(x => x.Numeracao == obj.Numeracao && x.Ano == obj.Ano);
@@ -77,6 +67,7 @@ namespace OficioMVC.Service
                 throw new DbConcurencyException(e.Message);
             }
         }
+        //Selecionar a ultima númeração usada para um documento
         public int GetNumMax()
         {
             int Ano = DateTime.Now.Year;
@@ -90,24 +81,14 @@ namespace OficioMVC.Service
             return max + 1;
         }
 
-        private Documento GetDocumento(int id)
+        //Retorna o caminho do arquivo do documento
+        public async Task<string> GetCaminhoArq(int id)
         {
-            var documento = _context.Documento.AsNoTracking()
-            .FirstOrDefault(m => m.Id == id);
-            _context.SaveChanges();
-            return documento;
-        }
-        public string GetCaminhoArq(int id)
-        {
-            var documento = GetDocumento(id);
+            var documento = await  FindById(id);
             
             return  documento.CaminhoArq;
         }
-        public TipoDoc GetTipo(int id)
-        {
-            var documento = GetDocumento(id);
-            return documento.Tipo;
-        }
+        //Seleciona todos os tipos de documentos
         public List<TipoDoc> GetAllTypes()
         {
             List<TipoDoc> Tipos = new List<TipoDoc>();
@@ -118,17 +99,7 @@ namespace OficioMVC.Service
             return Tipos;
 
         }
-        public bool Exist(int id)
-        {
-            var obj = _context.Documento.FirstOrDefault(x => x.Id == id);
-            if(obj == null)
-            {
-                return false;
-            }
-            
-                return true;
-            
-        }
+  
 
 
     }
