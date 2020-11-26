@@ -138,6 +138,7 @@ namespace OficioMVC.Controllers
             }
 
             var documento = await _documentoService.FindById(id);
+            
             if (documento == null)
             {
                 return NotFound();
@@ -179,15 +180,22 @@ namespace OficioMVC.Controllers
                     //verifica se foi enviado arquivo.
                     if (file != null)
                     {
+                        string ext = Path.GetExtension(file.FileName);
+                        if(ext.ToLower() !=".pdf")
+                        {
+                            return RedirectToAction(nameof(Error), new { message = "Arquivo deve ser em formato PDF!" });
+                        }
+                       
                         string fileNewName = Convert.ToString(documento.Numeracao) + "_" + Convert.ToString(documento.Ano);
                         string fileNameExt;
                         try
                         {
+                            
                             fileNameExt = _arquivo.Upload(file, fileNewName);
                         }
                         catch (IOException e)
                         {
-                            return RedirectToAction(nameof(Error), new { message = "Documento j existe" + e.Message });
+                            return RedirectToAction(nameof(Error), new { message = "Arquivo não pode ser substituido" + e.Message });
                         }
                         if (_arquivo.FileExist(fileNameExt))
                         {
