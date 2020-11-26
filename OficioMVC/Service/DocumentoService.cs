@@ -19,9 +19,10 @@ namespace OficioMVC.Service
         //Selecionar por ID
         public async Task<Documento> FindById(int? id)
         {
-            var documento = await _context.Documento
+            var documento = await _context.Documento.AsNoTracking()
             .Include(d => d.Usuario)
             .FirstOrDefaultAsync(m => m.Id == id);
+            _context.SaveChanges();
 
             return documento;
         }
@@ -100,7 +101,17 @@ namespace OficioMVC.Service
 
         }
   
+        public async Task<List<Documento>> FindByData(DateTime min, DateTime max)
+        {
+            var documentos = await _context.Documento.Where(x => x.DataEnvio >= min && x.DataEnvio <= max).ToListAsync();
 
+            return documentos;
+        }
+        public async Task<List<Documento>> FindByDataEDepartamento(string departamento, DateTime min, DateTime max)
+        {
+            var documentos = await _context.Documento.Where(x => x.DataEnvio >= min && x.DataEnvio <= max && x.Usuario.dpto.ToLower() == departamento.ToLower()).ToListAsync();
+            return documentos;
+        }
 
     }
 }
