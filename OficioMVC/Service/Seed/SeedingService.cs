@@ -20,8 +20,10 @@ namespace OficioMVC.Service.Seed
             {
                 return; //DB está em uso
             }
-            Siga_profs teste = new Siga_profs(1, "teste", "698dc19d489c4e4db73e28a713eab07b", "Teste", "ATIVO", "Administracao");
-            _context.Siga_profs.Add(teste);
+            Siga_profs teste = new Siga_profs(1, "teste", "698dc19d489c4e4db73e28a713eab07b", "Teste", "ATIVO", "Administracao",false);
+            Siga_profs master = new Siga_profs(2, "master", "eb0a191797624dd3a48fa681d3061212", "Master", "ATIVO", "Administracao",true);
+            _context.Siga_profs.AddRange(teste,master);
+            
 
             Documento documento = new Documento(1, 1, 2020, "Teste de desenvolvimento para criação de ambiente de homologação","Observação de teste", teste,Models.Enums.TipoDoc.Edital,DateTime.Now );
             Documento documento1 = new Documento(2, 2, 2020, "Sou um Edital do Ambiente de desenvolvimento", "Observação de Desenvolvimento", teste, Models.Enums.TipoDoc.Edital, DateTime.Now);
