@@ -1,14 +1,9 @@
-﻿
-#qrCode {
-    margin: 15px;
-}
- #fundoLogin {
-    background-color: #f2f2f2;
-    padding-top: -10;
-    padding-bottom: -20;
-    margin-top: -15px;
-    margin-bottom: -15px;
+﻿#title{
+    color:red;
+    background-color:white;
     
 }
-
+#main{
+    color:grey;
+}
 /* Hide/rearrange for smaller screens */

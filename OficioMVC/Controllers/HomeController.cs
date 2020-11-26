@@ -57,8 +57,7 @@ namespace OficioMVC.Controllers
                 {
                     _login.Login(obj);
                     //HttpContext.Session.SetObjectAsJson("User", obj);
-                    return RedirectToAction("Index");
-
+                    return RedirectToAction("Index", "Documentos");
                 }
                 else
                 {
