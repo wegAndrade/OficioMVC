@@ -55,11 +55,15 @@ namespace OficioMVC.Controllers
         {
             string HashPass = _hash.GerarMD5(Usuario.user_pass);
             var obj = _profsService.FindByUser(Usuario.user_login, HashPass);
-
-            if (obj.master != false)
+            if (obj != null)
             {
-                return RedirectToAction("Edit","Documentos", new { Id = Id, authorization = true });
+                if (_profsService.Siga_profsExists(obj.ID) && obj.master == true)
+                {
+                    return RedirectToAction("Edit", "Documentos", new { Id = Id, authorization = true });
+                }
             }
+
+           
 
             return RedirectToAction("Edit","Error", new { message = "Acesso negado" });
         }

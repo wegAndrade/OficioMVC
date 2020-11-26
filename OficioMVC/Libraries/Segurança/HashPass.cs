@@ -11,6 +11,10 @@ namespace OficioMVC.Models
         public string GerarMD5(string valor)
 
         {
+            if(valor == null)
+            {
+                return "";
+            }
 
             // Cria uma nova intância do objeto que implementa o algoritmo para
 
