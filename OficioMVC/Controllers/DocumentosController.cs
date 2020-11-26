@@ -105,44 +105,32 @@ namespace OficioMVC.Controllers
             return RedirectToAction("Create", "Documentos", new { T = T1, area = "" });
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<JsonResult> Create([FromBody] Documento documento)
-        {
-
-            documento.UsuarioId = _login.GetUser().ID;
-            documento.Numeracao = _documentoService.GetNumMax();
-            documento.Ano = DateTime.Now.Year;
-            documento.DataEnvio = DateTime.Now;
-            documento.Status = StatusDoc.Aberto;
-
-            if (ModelState.IsValid)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] Documento documento)
             {
-                try
+                
+                documento.UsuarioId = _login.GetUser().ID;
+                documento.Numeracao = _documentoService.GetNumMax();
+                documento.Ano = DateTime.Now.Year;
+                documento.DataEnvio = DateTime.Now;
+                documento.Status = StatusDoc.Aberto;
+
+                if (ModelState.IsValid)
                 {
-                    await _documentoService.InsertAsync(documento);
+                    _context.Add(documento);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", new { id = documento.Id, alterado = true });
 
-                    documento.Usuario = _login.GetUser();
-                    return Json(documento);
+                   
+
                 }
-
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-
-                    return Json(e.Message);
-                }
-
-
+                return View("erro");
+                
             }
-            else
-            {
-                return Json("error:erro!");
-            }
-        }
-        //Edição envio da view de formulario
-        // GET: Documentoes/Edit/5
-        //Editando o documento
-        public async Task<IActionResult> Edit(int? id, bool? authorization)
+            //Edição envio da view de formulario
+            // GET: Documentoes/Edit/5
+            //Editando o documento
+            public async Task<IActionResult> Edit(int? id, bool? authorization)
         {
             if (id == null)
             {
@@ -199,7 +187,7 @@ namespace OficioMVC.Controllers
                         }
                         catch (IOException e)
                         {
-                            return RedirectToAction(nameof(Error), new { message = "Documento já existe" + e.Message });
+                            return RedirectToAction(nameof(Error), new { message = "Documento j existe" + e.Message });
                         }
                         if (_arquivo.FileExist(fileNameExt))
                         {
