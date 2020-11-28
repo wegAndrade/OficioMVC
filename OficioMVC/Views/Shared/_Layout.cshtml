@@ -13,7 +13,7 @@
     <title>@ViewData["Title"] - Fatec Jundiaí </title>
     <script>
         window.onload = function () {
-            if (window.location.href === "https://localhost:44375" || window.location.href === "https://localhost:44375/") {
+            if (window.location.pathname === "/" || window.location.href === "/Login") {
 
                 $("#btn-login").show();
                 $("#btn-logout").hide();
