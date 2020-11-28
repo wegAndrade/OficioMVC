@@ -25,50 +25,47 @@
         }
 
     </script>
-    <environment include="Development">
 
-    </environment>
-
-    <link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" type="text/css" href="css/index.css">
 
 </head>
 <body>
-    <div id="main" >
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-            <h5 class="my-0 mr-md-auto font-weight-normal"> <a asp-area="" asp-controller="Documentos" asp-action="Index" class="navbar-brand" id="title" style="color:red">Fatec - Jundiaí</a></h5>
-            <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-dark" asp-area="" asp-controller="Documentos" asp-action="Index">Inicio</a>
-            </nav>
-            <a id="btn-logout" class="p-2 text-dark hidden" style="display:none"><div type="button" data-toggle="modal" data-target="#LogoutModal" class=" float-left  btn btn-outline-danger hidden">Logout</div></a>
-            <a id="btn-login" class="p-2 text-dark" style="display:none" asp-area="" asp-controller="Home" asp-action="Login"><div type="button" d class=" float-left  btn btn-outline-primary">Login</div></a>
-        </div>
+    <div id="main"  >
+       <div class="header">
+            <div class="d-flex  flex-md-row align-items-center  px-md-4  bg-white  shadow-sm h-100" id="t">
+                <h5 class="my-0 mr-md-auto  font-weight-normal"> <a asp-area="" asp-controller="Documentos" asp-action="Index" class="navbar-brand" id="title" >Fatec - Jundiaí</a></h5>
+                <nav class="my-2 my-md-0 mr-md-3 mr-sm-3 my-sm-0">
+                    <a class="p-2 text-dark" asp-area="" asp-controller="Documentos" asp-action="Index">Inicio</a>
+                </nav>
+                <a id="btn-logout" class="p-2 text-dark hidden" style="display:none"><div type="button" data-toggle="modal" data-target="#LogoutModal" class=" float-left  btn btn-outline-danger hidden">Logout</div></a>
+                <a id="btn-login" class="p-2 text-dark" style="display:none" asp-area="" asp-controller="Home" asp-action="Login"><div type="button" d class=" float-left  btn btn-outline-primary">Login</div></a>
+            </div>
 
-        <div class="modal fade" id="LogoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="Modaltitle">Deseja sair do sistema?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <a asp-area="" asp-controller="Home" asp-action="Logout"> <input type="button" class="btn btn-danger" value="Sair"></a>
-                        <button type="button" class="btn btn-primary float-right" data-dismiss="modal">Não, quero ficar!</button>
+            <div class="modal fade" id="LogoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="Modaltitle">Deseja sair do sistema?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <a asp-area="" asp-controller="Home" asp-action="Logout"> <input type="button" class="btn btn-danger" value="Sair"></a>
+                            <button type="button" class="btn btn-primary float-right" data-dismiss="modal">Não, quero ficar!</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <partial name="_CookieConsentPartial" />
-
-        <div>
+        
             @RenderBody()
-            <hr />
-            <footer id="footer_login">
-                <p class="d-flex justify-content-center">&copy; @ViewData["Ano"] - Fatec - Jundiaí</p>
+       
+            
+            <footer id="footer">
+                <p >&copy; @ViewData["Ano"] - Fatec - Jundiaí</p>
             </footer>
-        </div>
+        
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.js"

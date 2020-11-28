@@ -1,0 +1,21 @@
+#title{
+  color:black;
+
+  
+}
+
+#t{
+min-height: 80px;
+}
+*{
+  margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+#footer{
+position: relative;
+margin-left: 48%;
+}
