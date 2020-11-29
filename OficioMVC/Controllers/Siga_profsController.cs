@@ -65,7 +65,7 @@ namespace OficioMVC.Controllers
 
            
 
-            return RedirectToAction("Edit","Error", new { message = "Acesso negado" });
+            return RedirectToAction("Error","Documentos", new { message = "Acesso negado" });
         }
 
     }

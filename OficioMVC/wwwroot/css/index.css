@@ -15,7 +15,7 @@ min-height: 80px;
 	font: inherit;
 	vertical-align: baseline;
 }
-#footer{
-position: relative;
-margin-left: 48%;
+
+#bodyContent{
+min-height: 600px;
 }

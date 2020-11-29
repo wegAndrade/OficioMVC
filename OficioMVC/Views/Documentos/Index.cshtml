@@ -1,37 +1,71 @@
 ﻿@model IEnumerable<OficioMVC.Models.Documento>
 
-<style src="~/css/index-doc.css"></style>
-<p>
-    <a type="button" class="btn btn-danger" asp-action="CreateEdital">Novo Edital</a>
-    <a type="button" class="btn btn-outline-danger" asp-action="CreateOficio">Novo Oficio</a>
-    <a type="button" class="btn btn-danger" asp-action="CreateMemorando">Novo Memorando</a>
-    <a type="button" class="btn btn-outline-danger" asp-action="CreatePortaria">Novo Portaria</a>
-</p>
-<table class="table">
+<link rel="stylesheet" type="text/css" href="~/css/Index/index.css">
+
+<div class="col-md-6 offset-md-4 mr-2 pt-2 offset-sm-4 col-sm-3 offset-xs-4">
+    <h2 > Lista de Documentos</h2>
+</div>
+
+<div class="offset-md-1 d-flex flex-row bd-highlight ">
+    <div class="dropdown ml-3"> 
+        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Adicionar um Documento
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="10px" height="10px" viewBox="0 0 533.333 533.333"  xml:space="preserve">
+                <g>
+                <path d="M516.667,200H333.333V16.667C333.333,7.462,325.871,0,316.667,0h-100C207.462,0,200,7.462,200,16.667V200H16.667
+                    C7.462,200,0,207.462,0,216.667v100c0,9.204,7.462,16.666,16.667,16.666H200v183.334c0,9.204,7.462,16.666,16.667,16.666h100
+                    c9.204,0,16.667-7.462,16.667-16.666V333.333h183.333c9.204,0,16.667-7.462,16.667-16.666v-100
+                    C533.333,207.462,525.871,200,516.667,200z"/>
+                </g>
+            </svg>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <a type="button" class="dropdown-item btn btn-danger" asp-action="CreateEdital">Novo Edital</a>
+            <a type="button" class="dropdown-item btn btn-outline-danger" asp-action="CreateOficio">Novo Oficio</a>
+            <a type="button" class="dropdown-item btn btn-danger" asp-action="CreateMemorando">Novo Memorando</a>
+            <a type="button" class="dropdown-item btn btn-outline-danger" asp-action="CreatePortaria">Novo Portaria</a>
+        </div>
+    </div>
+    <div class="form offset-md-1" id="formData" >
+        <form>
+            <input type="date" name="" class="mt-3 mb-3 ml-3">
+            <input type="date" name="" class="mt-3 mb-3">
+            <button type="submit" class="btn btn-danger mr-3 ml-2 ">Pesquisar</button>
+        </form>
+    </div>
+      <div class="form offset-md-1" id="formDepartamento" >
+          <form>
+            <input type="text" name="" class="mt-3 mb-3 ml-3 ">
+            <button type="submit" class="btn btn-danger mr-3 ml-2">Pesquisar</button>
+        </form>
+    </div>
+    
+</div>
+<div class="offset-md-1 col-md-10 col-sm-12">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Numeracao)
+            <th scope="col">
+                <b>@Html.DisplayNameFor(model => model.Numeracao)</b>
+            </th>
+            <th scope="col">
+                <b>@Html.DisplayNameFor(model => model.Assunto)</b>
+            </th>
+            
+            <th scope="col">
+               <b> @Html.DisplayNameFor(model => model.Tipo)</b>
+            </th>
+            <th scope="col">
+                <b>Data cadastro</b>
+            </th>
+            <th scope="col">
+                <b>@Html.DisplayNameFor(model => model.Status)</b>
+            </th>
+            <th scope="col">
+                <b>@Html.DisplayNameFor(model => model.Usuario)</b>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Assunto)
+                <b>Ações</b>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observacoes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataEnvio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataAlteracao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,9 +77,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Assunto)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observacoes)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Tipo)
             </td>
@@ -53,17 +85,18 @@
                 @Html.DisplayFor(modelItem => item.DataEnvio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DataAlteracao)
+                   @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario.user_login)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id"><img src="~/images/Icons/edit-2.svg" width="20px" height="20px"></a> |
-                <a asp-action="Details" asp-route-id="@item.Id"><img src="~/images/Icons/search-outline.svg" width="20px" height="20px"></a> |
+                <a asp-action="Edit" asp-route-id="@item.Id" ><img src="~/images/Icons/edit-2.svg" width="20px" height="20px"></a> 
+                <a asp-action="Details" asp-route-id="@item.Id" asp-route-alterado="@false"><img src="~/images/Icons/search-outline.svg" width="20px" height="20px"></a> 
                 <a asp-action="Delete" asp-route-id="@item.Id"><img src="~/images/Icons/trash-2-outline.svg" width="20px" height="20px"></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>

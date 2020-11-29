@@ -3,7 +3,7 @@
 @using OficioMVC.Models.Enums;
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Documento";
 
 }
 
@@ -14,70 +14,86 @@
         return Xsrf.GetAndStoreTokens(Context).RequestToken;
     }
 }
+<div class="col-md-8 offset-md-2">
 
+  <hr class="my-5">
 
-<h2>Edit</h2>
-
-<h4>Documento - @ViewBag.Doc_identificador</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form enctype="multipart/form-data" asp-action="Edit">
+  <!-- form user info -->
+  <div class="card card-outline-secondary">
+      <div class="card-header">
+          <h3 class="mb-0">Documento - @ViewBag.Doc_identificador</h3>
+      </div>
+      <div class="card-body">
+          <form class="form" role="form" autocomplete="off" enctype="multipart/form-data" asp-action="Edit">
+            <!-- Hidens -->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" id="RequestVerificationToken"
                    name="RequestVerificationToken" value="@GetAntiXsrfRequestToken()">
             <input type="hidden" asp-for="Documento.Id" id="input-id" />
             <input type="hidden" asp-for="Documento.Ano" id="input-ano" />
             <input type="hidden" asp-for="Documento.Numeracao" id="input-numeracao" />
-            <div class="form-group">
-                <label asp-for="Documento.Assunto" class="control-label"></label>
-                <input asp-for="Documento.Assunto" class="form-control" id="input-assunto" />
-                <span asp-validation-for="Documento.Assunto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Documento.Observacoes" class="control-label"></label>
-                <textarea asp-for="Documento.Observacoes" class="form-control" id="input-obs" rows="5" cols="33">
-                </textarea>
-                <span asp-validation-for="Documento.Observacoes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Documento.Tipo" class="control-label"></label>
-                <select asp-for="Documento.Tipo" class="form-control" id='input-tipo'>
+            <input type="hidden" asp-for="Documento.DataEnvio" class="form-control" id="input-dataEnvio" />
+            <input type="hidden" asp-for="Documento.UsuarioId" id="input-usuarioId" />
+            <span asp-validation-for="Documento.UsuarioId" class="text-danger"></span>
 
 
-                    @for (int i = 0; i < @Model.Tipos.Count; i++)
-                    {
-                        <option value="@Model.Tipos[i]">
-                            @Model.Tipos[i]
-                        </option>
-                    }
 
-                </select>
-                <span asp-validation-for="Documento.Tipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Arquivo PDF!</label>
-                <input type="file" name="file" id="input-arquivo" />
-            </div>
 
-            <div class="form-group">
-
-                <input type="hidden" asp-for="Documento.DataEnvio" class="form-control" id="input-dataEnvio" />
-                <span asp-validation-for="Documento.DataEnvio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-
-                <input type="hidden" asp-for="Documento.UsuarioId" id="input-usuarioId" />
-                <span asp-validation-for="Documento.UsuarioId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" id="Edit"  />
-            </div>
-        </form>
-    </div>
-</div>
+              <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Assunto</label>
+                  <div class="col-lg-9">
+                    
+                      <input class="form-control" asp-for="Documento.Assunto" type="text"  id="input-assunto">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Observações</label>
+                  <div class="col-lg-9">
+                  
+                    <textarea asp-for="Documento.Observacoes" class="form-control" id="input-obs" rows="5" cols="33">
+                    </textarea>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Tipo</label>
+                  <div class="col-lg-9">
+              
+                    <select asp-for="Documento.Tipo" class="form-control" id='input-tipo'>
+    
+    
+                        @for (int i = 0; i < @Model.Tipos.Count; i++)
+                        {
+                            <option value="@Model.Tipos[i]">
+                                @Model.Tipos[i]
+                            </option>
+                        }
+    
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Arquivo</label>
+                  <div class="col-lg-9">
+                    
+                    <input type="file" name="file" id="input-arquivo" />
+                  </div>
+              </div>
+             
+              <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label"></label>
+                  <div class="col-lg-9">
+                    <div class="form-group">
+                      <button type="submit" value="Alterar" class="btn btn-success" id="Edit" >Alterar</button>
+                  </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <form asp-asp-action="Index">
+        <button type="submit" asp-action="Index" class="btn btn-secondary">Voltar</button >
+    </form>
 </div>
 
 @section Scripts {
@@ -85,7 +101,7 @@
 
    
     <script type="module" src="~/js/ModalScript/Modal.js"></script>
-    <script src="~/js/DocumentosScript/getDocumet.js"></script>
+
 }
 
 

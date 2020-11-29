@@ -63,10 +63,10 @@ namespace OficioMVC.Controllers
             {
                 return NotFound();
             }
-            if (alterado)
-            {
+            
+            
                 @ViewBag.alterado = alterado;
-            }
+            
             return View(documento);
         }
         // GET: Documentoes/Create
@@ -114,6 +114,7 @@ namespace OficioMVC.Controllers
                 documento.Ano = DateTime.Now.Year;
                 documento.DataEnvio = DateTime.Now;
                 documento.Status = StatusDoc.Aberto;
+                
 
                 if (ModelState.IsValid)
                 {
@@ -130,7 +131,7 @@ namespace OficioMVC.Controllers
             //Edição envio da view de formulario
             // GET: Documentoes/Edit/5
             //Editando o documento
-            public async Task<IActionResult> Edit(int? id, bool? authorization)
+            public async Task<IActionResult> Edit(int? id, bool authorization)
         {
             if (id == null)
             {
@@ -144,7 +145,7 @@ namespace OficioMVC.Controllers
                 return NotFound();
             }
             //Verificando se o usuario tem permissão para alterar documento Enviado ou excluido
-            if (authorization == false || authorization == null)
+            if (authorization == false )
             {
                 if (documento.Status == StatusDoc.Enviado || documento.Status == StatusDoc.Excluido)
                 {

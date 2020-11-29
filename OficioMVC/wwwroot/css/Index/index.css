@@ -1,0 +1,8 @@
+#formDepartamento input,
+#formData input{
+  border-style: solid;
+  border-color: grey;
+  border-width: 0.25px;
+  border-radius: 10px;
+  width: 140px!important;
+}
