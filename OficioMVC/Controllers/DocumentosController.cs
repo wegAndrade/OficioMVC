@@ -45,9 +45,15 @@ namespace OficioMVC.Controllers
         //Retorna todos documentos (não excluidos) 
         public async Task<IActionResult> Index()
         {
-            var oficioMVCContext = _documentoService.FindAllAsync(true);
+           
+                var oficioMVCContext = _documentoService.FindAllAsync(true);
+            ViewData["minDate"] = DateTime.Now.ToString("yyyy-MM-dd");
+            ViewData["maxDate"] = DateTime.Now.ToString("yyyy-MM-dd");
             return View(await oficioMVCContext);
+            
+       
         }
+      
         //Detalhando o documento selecionado
         // GET: Documentoes/Details/5
         public async Task<IActionResult> Details(int? id, Boolean alterado)
@@ -131,7 +137,7 @@ namespace OficioMVC.Controllers
             //Edição envio da view de formulario
             // GET: Documentoes/Edit/5
             //Editando o documento
-            public async Task<IActionResult> Edit(int? id, bool authorization)
+        public async Task<IActionResult> Edit(int? id, bool authorization)
         {
             if (id == null)
             {
@@ -315,6 +321,24 @@ namespace OficioMVC.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
             return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SearchData(DateTime? min, DateTime? max,string departamento)
+        {
+            if(min > max)
+            {
+                return RedirectToAction("Error", new { message = "Data de inicio maior que a data final" });
+            }
+           var  documentos = await _documentoService.FindByDataEDepartamento(departamento, min, max);
+            ViewData["minDate"] = min.Value.ToString("yyyy-MM-dd");
+            ViewData["maxDate"] = max.Value.ToString("yyyy-MM-dd");
+            if (departamento != null)
+            {
+                ViewData["Departamento"] = departamento;
+            }
+            return View("Index",  documentos );
+
+
         }
 
 

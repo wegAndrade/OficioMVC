@@ -36,9 +36,9 @@ namespace OficioMVC.Service
         {
             if (exc)
             {
-                return await _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido).ToListAsync();
+                return await _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido).OrderByDescending(d=> d.).ToListAsync();
             }
-            return await _context.Documento.Include(d => d.Usuario).ToListAsync();
+            return await _context.Documento.Include(d => d.Usuario).OrderByDescending(d => d.DataEnvio)..ToListAsync();
 
         }
         //inserir documentos de forma assincrona
@@ -101,17 +101,28 @@ namespace OficioMVC.Service
 
         }
   
-        public async Task<List<Documento>> FindByData(DateTime min, DateTime max)
+        public async Task<List<Documento>> FindByDataEDepartamento(String departamento, DateTime? min, DateTime? max)
         {
-            var documentos = await _context.Documento.Where(x => x.DataEnvio >= min && x.DataEnvio <= max).ToListAsync();
+            var result = from obj in _context.Documento select obj;
+            if (min.HasValue)
+            {
+                result = result.Where(x => x.DataEnvio >= min.Value);
+            }
+            if(max.HasValue)
+            {
+                result = result.Where(x => x.DataEnvio <= max.Value);
+            }
+            if(departamento != "" && departamento != null)
+            {
+                result = result.Where(x => x.Usuario.dpto == departamento);
+            }
 
-            return documentos;
+            return await result.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido).OrderByDescending(x=> x.DataEnvio).ToListAsync();
+            
+
+      
         }
-        public async Task<List<Documento>> FindByDataEDepartamento(string departamento, DateTime min, DateTime max)
-        {
-            var documentos = await _context.Documento.Where(x => x.DataEnvio >= min && x.DataEnvio <= max && x.Usuario.dpto.ToLower() == departamento.ToLower()).ToListAsync();
-            return documentos;
-        }
+        
 
     }
 }

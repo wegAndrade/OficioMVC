@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<OficioMVC.Models.Documento>
+@{ 
+    DateTime minDate = DateTime.Parse(ViewData["minDate"] as string);
+    DateTime maxDate = DateTime.Parse(ViewData["maxDate"] as string);
+}
 
 <link rel="stylesheet" type="text/css" href="~/css/Index/index.css">
 
@@ -26,18 +30,19 @@
         </div>
     </div>
     <div class="form offset-md-1" id="formData" >
-        <form>
-            <input type="date" name="" class="mt-3 mb-3 ml-3">
-            <input type="date" name="" class="mt-3 mb-3">
+        <form asp-action="SearchData">
+            <input type="date" name="min" class="mt-3 mb-3 ml-3" value=@ViewData["minDate"]>
+            <input type="date" name="max" class="mt-3 mb-3" value=@ViewData["maxDate"]>
+            <input type="text" name="departamento" value=@ViewData["Departamento"] class="mt-3 mb-3 ml-3 ">
             <button type="submit" class="btn btn-danger mr-3 ml-2 ">Pesquisar</button>
         </form>
     </div>
-      <div class="form offset-md-1" id="formDepartamento" >
+      @*<div class="form offset-md-1" id="formDepartamento" >
           <form>
             <input type="text" name="" class="mt-3 mb-3 ml-3 ">
             <button type="submit" class="btn btn-danger mr-3 ml-2">Pesquisar</button>
         </form>
-    </div>
+    </div>*@
     
 </div>
 <div class="offset-md-1 col-md-10 col-sm-12">
