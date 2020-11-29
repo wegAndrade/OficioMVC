@@ -1,71 +1,75 @@
 ﻿@model OficioMVC.Models.Documento
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Deletar";
 }
 <link rel="stylesheet" type="text/css" href="~/css/Documentos/delete.css">
-<div class="container-fluid" id="delteContent">
-    <div class="offset-md-5 align-content-center mb-3 mt-3">
-        <h3>Deletar Documento</h3>
-    </div>
-    <div class="offset-md-2 d-flex flex-row bd-highlight ">
-        <div class="pr-3 pl-3">
-            <b>Númeração: </b>
-            <p>
-            @Html.DisplayFor(model => model.Numeracao)  / @Html.DisplayFor(model => model.Ano)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>@Html.DisplayNameFor(model => model.Tipo) :</b> 
-            <p>
-            @Html.DisplayFor(model => model.Tipo)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Arquivo :</b> 
-            <p>
-                @Html.DisplayFor(model => model.CaminhoArq)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Data Cadastro :</b> 
-            <p>
-                @Html.DisplayFor(model => model.DataEnvio)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Data Alteração :</b> 
-            <p>
-                @Html.DisplayFor(model => model.DataAlteracao)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Usuario Cadastro :</b> 
-            <p>
-                 @Html.DisplayFor(model => model.Usuario.user_login)
-            </p>
-        </div>
-    </div>
-    <div class="offset-md-2 d-flex flex-row bd-highlight">
-         <p id="Title">
-            @Html.DisplayNameFor(model => model.Assunto) :
-        </p>     
-    </div>
-     <div class="offset-md-2 d-flex flex-row bd-highlight  pl-3">
-            @Html.DisplayFor(model => model.Assunto)
-        </div >
-     <div class="offset-md-2 d-flex flex-row bd-highlight ">
-         <p id="Title">
-            Observações :
-        </p>
-    </div>
-        <div class="offset-md-2 col-md-8 d-flex flex-row bd-highlight  pl-3">
-            @Html.DisplayFor(model => model.Observacoes)
-        </div>
-    
-        
-  <div class="offset-md-2 ">       
-     <div class="row">
+<div class="col-md-8 offset-md-2">
+    <h1 class="col-md-8 offset-md-3">Deletar Documento</h1>
+  <hr class="my-5">
+
+  <!-- form user info -->
+  <div class="card card-outline-secondary">
+      <div class="card-header">
+          <h3 class="mb-0">Documento - @Html.DisplayFor(model => model.Numeracao)/ @Html.DisplayFor(model => model.Ano) - @Html.DisplayFor(model => model.Usuario.user_nicename) </h3>
+      </div>
+      <div class="card-body">
+<div class="row">
+    <div class="col-md-12">
+      
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Assunto</label>
+                <div class="col-lg-9">   
+                    <input class="form-control" disabled  type="text" required value = "@Html.DisplayFor(model => model.Assunto)" id="input-assunto">                 
+                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Observações: </label>
+                  <div class="col-lg-9">
+                    <textarea disabled  class="form-control" id="input-obs" rows="5" cols="33">@Html.DisplayFor(model => model.Observacoes)
+                    </textarea>
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Tipo: </label>
+                  <div class="col-lg-9">  
+                       <select  class="form-control" disabled>
+                        <option value="0">    @Html.DisplayFor(model => model.Tipo) </option>
+                    </select>      
+                </div>
+            </div>
+            <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Datas: </label>
+                  <div class="col-lg-9">  
+                       Data Cadastro
+                    <p>@Html.DisplayFor(model => model.DataEnvio) </p>
+                    Data Alteração
+                    <p>@Html.DisplayFor(model => model.DataAlteracao)</p>
+                </div>
+            </div>
+             
+            
+             <div class="form-group row">
+                  <label class="col-lg-3 col-form-label form-control-label">Arquivo: </label>
+                  <div class="col-lg-9">  
+                       <b>Arquivo :</b> 
+                         <p>
+                     
+                     @Html.ActionLink("Documento", "Download", new { Model.CaminhoArq})
+                        </p>    
+                </div>
+            </div>
+            
+                
+            
+
+         
+      </div>
+  </div>
+<div>
+   
+       <div class="row">
          <form asp-action="Delete" class="pr-2">
                 <input type="hidden" asp-for="Id" />
                 <input type="submit" value="Delete" class="btn btn-danger" /> 
@@ -74,6 +78,14 @@
         <button type="submit" asp-action="Index" class="btn btn-secondary">Voltar</button >
     </form>
     </div>  
+
+</div>
+
+    </div>
+</div>
+
+</div>
+
 
 
 </div>

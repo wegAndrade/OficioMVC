@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace OficioMVC.Service
 {
     public class DocumentoService
@@ -36,9 +37,9 @@ namespace OficioMVC.Service
         {
             if (exc)
             {
-                return await _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido).OrderByDescending(d=> d.).ToListAsync();
+                return await _context.Documento.Include(d => d.Usuario).Where(d => d.Status != StatusDoc.Excluido).OrderByDescending(d => d.DataEnvio).ToListAsync();
             }
-            return await _context.Documento.Include(d => d.Usuario).OrderByDescending(d => d.DataEnvio)..ToListAsync();
+            return await _context.Documento.Include(d => d.Usuario).OrderByDescending(d => d.DataEnvio).ToListAsync();
 
         }
         //inserir documentos de forma assincrona
