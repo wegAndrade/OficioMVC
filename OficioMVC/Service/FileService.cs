@@ -39,9 +39,9 @@ namespace OficioMVC.Service
 
 
             // If file with same name exists delete it
-            if (System.IO.File.Exists(fileName))
+            if (System.IO.File.Exists(Destino))
             {
-                File.Delete(fileName);
+                File.Delete(Destino);
 
             }
 
