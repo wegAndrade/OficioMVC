@@ -44,13 +44,13 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="id" id="input-id"  value="@ViewBag.id"/>
                         <div class="col-md-12">
-                            <label asp-for="Usuario.user_login" class="control-label"></label>
-                            <input type="text" asp-for="Usuario.user_login" class="form-control" id="input-assunto" />
+                            Usuário
+                            <input type="text" asp-for="Usuario.user_login" class="form-control pt-2"/>
                             <span asp-validation-for="Usuario.user_login" class="text-danger"></span>
                         </div>
                         <div class="col-md-12">
-                            <label asp-for="Usuario.user_pass" class="control-label"></label>
-                            <input asp-for="Usuario.user_pass" class="form-control" id="input-obs" type="password" />
+                            Senha
+                            <input asp-for="Usuario.user_pass" class="form-control pt-2" type="password" />
                             <span asp-validation-for="Usuario.user_pass" class="text-danger"></span>
                         </div>
                         

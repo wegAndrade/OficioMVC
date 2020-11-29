@@ -215,7 +215,7 @@ namespace OficioMVC.Controllers
                     {
                         documento.CaminhoArq =
                           await _documentoService.GetCaminhoArq(id);
-                        documento.Status = StatusDoc.Aberto;
+                        
                     }
 
 
