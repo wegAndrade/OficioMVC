@@ -49,16 +49,21 @@
                 </div>
             </div>
             
-             < class="form-group row">
+             <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">Arquivo: </label>
                   <div class="col-lg-9">  
                        <b>Arquivo :</b> 
                          <p>
-                     
-                     @Html.ActionLink("Documento", "Download", new { Model.CaminhoArq})
-                        </p>    
+                     @if(Model.CaminhoArq == "" || Model.CaminhoArq == null){
+                        <a asp-action="Edit" class="btn btn-info mr-2 "asp-route-id="@Model.Id"> Fazer Upload do arquivo</a> 
+                     }else
+                     {
+                               @Html.ActionLink("Documento", "Download", new { Model.CaminhoArq})
+                   
+                     }
+                    </p>    
                 </div>
-            </>
+            </div>
             
                 
             
@@ -89,71 +94,6 @@
 
 
 
-
-
-<div class="container-fluid" id="delteContent">
-    <div class="offset-md-5 align-content-center mb-3 mt-3">
-        <h3>Consulta Documento</h3>
-    </div>
-    <div class="offset-md-2 d-flex flex-row bd-highlight ">
-        <div class="pr-3 pl-3">
-            <b>Númeração: </b>
-            <p>
-            @Html.DisplayFor(model => model.Numeracao)  / @Html.DisplayFor(model => model.Ano)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>@Html.DisplayNameFor(model => model.Tipo) :</b> 
-            <p>
-            @Html.DisplayFor(model => model.Tipo)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-           
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Data Cadastro :</b> 
-            <p>
-                @Html.DisplayFor(model => model.DataEnvio)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Data Alteração :</b> 
-            <p>
-                @Html.DisplayFor(model => model.DataAlteracao)
-            </p>
-        </div>
-        <div class="pr-3 pl-3">
-            <b>Usuario Cadastro :</b> 
-            <p>
-                 @Html.DisplayFor(model => model.Usuario.user_login)
-            </p>
-        </div>
-    </div>
-    <div class="offset-md-2 d-flex flex-row bd-highlight">
-         <p id="Title">
-            @Html.DisplayNameFor(model => model.Assunto) :
-        </p>     
-    </div>
-     <div class="offset-md-2 d-flex flex-row bd-highlight  pl-3">
-            @Html.DisplayFor(model => model.Assunto)
-        </div >
-     <div class="offset-md-2 d-flex flex-row bd-highlight ">
-         <p id="Title">
-            Observações :
-        </p>
-    </div>
-        <div class="offset-md-2 col-md-8 d-flex flex-row bd-highlight  pl-3">
-            @Html.DisplayFor(model => model.Observacoes)
-        </div>
-    
-
-
-
-          
-        </div>
-</div>
-           
 
             
        
@@ -190,7 +130,7 @@
                 </div>
                 <div Id="Usuario">
                     Usuario de envio: 
-                    @Html.DisplayFor(model => model.Usuario.user_login)
+                    @Html.DisplayFor(model => model.Usuario.user_nicename)
                 </div>
             </div>
             <div class="modal-footer">

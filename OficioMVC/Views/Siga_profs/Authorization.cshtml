@@ -20,7 +20,9 @@
                 }
 
                
-                
+        $("#myModalSucess").on('hidden.bs.modal', function (){
+            window.history.back();
+        });
             </script>   
         }
 
@@ -31,7 +33,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Autorização </h4>
-                 <button class='btn btn-danger offset-md-7'onClick="fecharModal(modal,true)">Fechar</button>
+                 <button class='btn btn-danger offset-md-7'onClick="fecharModal(modal)">Fechar</button>
             </div>
             <div class="modal-body">
                <h4>Informe usuario e senha</h4>

@@ -2,9 +2,7 @@ function abrirModal(modal){
   $(modal).modal('show');
 }
 
-function fecharModal(modal,history){
+function fecharModal(modal){
 $(modal).modal('hide');
-if(history == true){
-  window.history.back();
-}
+
 }
