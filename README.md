@@ -21,7 +21,7 @@ Súmario
    * [.Net Core 2.1(SDK)](https://dotnet.microsoft.com/download/dotnet-core/2.1)
    * [MYSQL](https://dev.mysql.com/downloads/mysql/)
    * [Visual Studio Code](https://code.visualstudio.com/) ou [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
-      * [Para usuarios do VSCODE baixar a extensão do C#](https://visualstudio.microsoft.com/pt-br/downloads/)
+      * [Para usuarios do VSCODE baixar a extensão do C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
    * Opcional - [git](https://git-scm.com/downloads)
 <!--te-->
 # Começando
