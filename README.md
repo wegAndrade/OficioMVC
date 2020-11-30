@@ -75,6 +75,7 @@ Para merito de testes pode se utilizar a seguinte conexão de um banco de dados 
   }
 ```
 "Server=oficiodb.mysql.database.azure.com; Port=3306; Database={your_database}; Uid=DbAdm@oficiodb; Pwd={your_password}; SslMode=Preferred;"
+```
 # Tecnologias
 
 .Net Core versão 2.1
