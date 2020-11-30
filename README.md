@@ -60,6 +60,21 @@ após isso na pasta da solução execute dotnet run para executar a aplicação.
 
 Em ambiente de testes o sistema cadastra dois usuarios:
 Com nome teste e master ambos com senhas iguais aos seus nomes
+
+Para merito de testes pode se utilizar a seguinte conexão de um banco de dados armazenado na Azure
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "Server=oficiodb.mysql.database.azure.com; Port=3306; Database={your_database}; Uid=DbAdm@oficiodb; Pwd=S&udH@; SslMode=Preferred;"
+  }
+```
+"Server=oficiodb.mysql.database.azure.com; Port=3306; Database={your_database}; Uid=DbAdm@oficiodb; Pwd={your_password}; SslMode=Preferred;"
 # Tecnologias
 
 .Net Core versão 2.1
