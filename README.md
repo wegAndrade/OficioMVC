@@ -56,7 +56,7 @@ Caso esteja executando a aplicação em ambiente de teste, execute o comando dot
 
 o script para execução do banco também se encontra na pasta DATA/Create.SQL
 
-após isso na pasta da solução execute dotnet run para executar a aplicação.
+
 
 Em ambiente de testes o sistema cadastra dois usuarios:
 Com nome teste e master ambos com senhas iguais aos seus nomes
@@ -71,10 +71,34 @@ Para merito de testes pode se utilizar a seguinte conexão de um banco de dados 
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "Server=oficiodb.mysql.database.azure.com; Port=3306; Database=developdb; Uid=DbAdm@oficiodb; Pwd=!aLSLut2; SslMode=Preferred;"
+    "OficioMVCContext": "Server=oficiodb.mysql.database.azure.com; Port=3306; Database=developdb; Uid=DbAdm@oficiodb; Pwd=!aLSLut2; SslMode=Preferred;"
   }
+}
 
 ```
+
+Dentro da pasta OficioMVC/OficioMVC que foi clonada na pasta que criou em sua máquina abra o terminal e execute o seguinte comando para restaurar as dependencias em sua máquina
+```
+dotnet tool restore
+```
+depois para atualizar o banco de dados
+```
+dotnet ef database update
+```
+e depois execute a aplicação usando
+```
+dotnet run 
+```
+Seu terminal deve ter um resultado do tipo: 
+
+
+![Image](https://uploaddeimagens.com.br/images/002/984/853/original/Capturar.PNG?1606779870)
+
+Em seu navegador utilize o endereço http://localhost:5000
+
+
+
+
 # Tecnologias
 
 .Net Core versão 2.1
