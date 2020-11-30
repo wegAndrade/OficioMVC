@@ -33,16 +33,10 @@
         <form asp-action="SearchData">
             <input type="date" name="min" class="mt-3 mb-3 ml-3" value=@ViewData["minDate"]>
             <input type="date" name="max" class="mt-3 mb-3" value=@ViewData["maxDate"]>
-            <input type="text" name="departamento" value=@ViewData["Departamento"] class="mt-3 mb-3 ml-3 ">
+            <input type="text" placeholder="departamento" name="departamento" value=@ViewData["Departamento"] class="mt-3 mb-3 ml-3 ">
             <button type="submit" class="btn btn-danger mr-3 ml-2 ">Pesquisar</button>
         </form>
     </div>
-      @*<div class="form offset-md-1" id="formDepartamento" >
-          <form>
-            <input type="text" name="" class="mt-3 mb-3 ml-3 ">
-            <button type="submit" class="btn btn-danger mr-3 ml-2">Pesquisar</button>
-        </form>
-    </div>*@
     
 </div>
 <div class="offset-md-1 col-md-10 col-sm-12">
@@ -77,7 +71,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Numeracao) /@Html.DisplayFor(modelItem => item.Ano)
+                @Html.DisplayFor(modelItem => item.Numeracao)/@Html.DisplayFor(modelItem => item.Ano)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Assunto)

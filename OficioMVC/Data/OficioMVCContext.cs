@@ -21,7 +21,11 @@ namespace OficioMVC.Models
 
             modelBuilder.Entity<Documento>()
          .Property(p => p.Assunto)
-         .HasColumnType("varchar(250)");
+         .HasColumnType("varchar(2500)");
+
+         modelBuilder.Entity<Documento>()
+         .Property(p => p.Observacoes)
+         .HasColumnType("varchar(2500)");
 
         }
 

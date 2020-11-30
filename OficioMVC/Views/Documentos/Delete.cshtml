@@ -20,7 +20,8 @@
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label form-control-label"><h5>Assunto</h5></label>
                 <div class="col-lg-9">   
-                    <input class="form-control" disabled  type="text" required value = "@Html.DisplayFor(model => model.Assunto)" id="input-assunto">                 
+                    <textarea disabled  class="form-control" id="input-obs" rows="5" cols="33">@Html.DisplayFor(model => model.Assunto)
+                    </textarea>
                     
                 </div>
             </div>
