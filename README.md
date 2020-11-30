@@ -71,7 +71,7 @@ Para merito de testes pode se utilizar a seguinte conexão de um banco de dados 
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "Server=oficiodb.mysql.database.azure.com; Port=3306; Database={your_database}; Uid=DbAdm@oficiodb; Pwd=S&udH@; SslMode=Preferred;"
+    "Server=oficiodb.mysql.database.azure.com; Port=3306; Database=developdb; Uid=DbAdm@oficiodb; Pwd=!aLSLut2; SslMode=Preferred;"
   }
 
 ```
