@@ -7,11 +7,11 @@
 <link rel="stylesheet" type="text/css" href="~/css/Index/index.css">
 
 <div class="col-md-6 offset-md-4 mr-2 pt-2 offset-sm-4 col-sm-3 offset-xs-4">
-    <h2 > Lista de Documentos</h2>
+    <h2  id="title" > Lista de Documentos</h2>
 </div>
 
-<div class="offset-md-1 d-flex flex-row bd-highlight ">
-    <div class="dropdown ml-3"> 
+<div class="offset-md-1 pl-3 d-flex flex-row bd-highlight mb-3">
+    <div class="dropdown  bd-highlight"> 
         <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Adicionar um Documento
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="10px" height="10px" viewBox="0 0 533.333 533.333"  xml:space="preserve">
                 <g>
@@ -29,16 +29,23 @@
             <a type="button" class="dropdown-item btn btn-outline-danger" asp-action="CreatePortaria">Novo Portaria</a>
         </div>
     </div>
-    <div class="form offset-md-1" id="formData" >
-        <form asp-action="SearchData">
-            <input type="date" name="min" class="mt-3 mb-3 ml-3" value=@ViewData["minDate"]>
-            <input type="date" name="max" class="mt-3 mb-3" value=@ViewData["maxDate"]>
-            <input type="text" placeholder="departamento" name="departamento" value=@ViewData["Departamento"] class="mt-3 mb-3 ml-3 ">
-            <button type="submit" class="btn btn-danger mr-3 ml-2 ">Pesquisar</button>
-        </form>
+        <div class=" bd-highlight">
+            <form asp-action="SearchData">
+                <input type="date" name="min" class="mt-3 mb-3 ml-3" value=@ViewData["minDate"]>
+                <input type="date" name="max" class="mt-3 mb-3" value=@ViewData["maxDate"]>
+                <input type="text" placeholder="departamento" name="departamento" value=@ViewData["Departamento"] class="mt-3 mb-3 ml-3 ">
+                <button type="submit" class="btn btn-danger mr-3 ml-2 ">Pesquisar</button>
+            </form>
+        </div>
+        <div class=" bd-highlight">
+            <form asp-action="Search">
+                <input type="text" placeholder="Assunto\Observação" name="busca" class="mt-3 mb-3 ml-3">
+                <button type="submit" class="btn btn-danger mr-3 ml-2 ">Pesquisar</button>
+            </form>
+            </div>
+
+
     </div>
-    
-</div>
 <div class="offset-md-1 col-md-10 col-sm-12">
 <table class="table table-striped">
     <thead>

@@ -1,8 +1,10 @@
-#formDepartamento input,
-#formData input{
+ input{
   border-style: solid;
   border-color: grey;
   border-width: 0.25px;
   border-radius: 10px;
-  width: 140px!important;
+  width: 150px!important;
 }
+ #title{
+     padding-left:10%;
+ }

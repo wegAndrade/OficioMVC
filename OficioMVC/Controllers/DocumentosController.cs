@@ -340,6 +340,16 @@ namespace OficioMVC.Controllers
 
 
         }
+        [HttpPost]
+        public async Task<IActionResult> Search(string busca)
+        {
+            var documentos = await _documentoService.FindByAssuntoObservacoes(busca);
+            ViewData["minDate"] = DateTime.Now.ToString("yyyy-MM-dd");
+            ViewData["maxDate"] = DateTime.Now.ToString("yyyy-MM-dd");
+            return View("Index", documentos);
+
+
+        }
 
 
 

@@ -123,6 +123,12 @@ namespace OficioMVC.Service
 
       
         }
+        public async Task<List<Documento>> FindByAssuntoObservacoes(string busca)
+        {
+           return await  _context.Documento.Where(d => d.Assunto.Contains(busca) || d.Observacoes.Contains(busca)).OrderByDescending(x => x.DataEnvio).ToListAsync();
+
+            
+        }
         
 
     }
