@@ -21,8 +21,21 @@ Súmario
    * [MYSQL](https://dev.mysql.com/downloads/mysql/)
    * [Visual Studio Code](https://code.visualstudio.com/) ou [Visual Studio](https://visualstudio.microsoft.com/pt-br/downloads/)
       * [Para usuarios do VSCODE baixar a extensão do C#](https://visualstudio.microsoft.com/pt-br/downloads/)
+   * Opcional - [git](https://git-scm.com/downloads)
 <!--te-->
 # Começando
+### Baixando o projeto
+com o git hub instalado crie uma pasta e abra o terminal nela
+
+execute 
+```
+git init
+```
+Depois
+```
+Git clone https://github.com/iTzWeg/OficioMVC.git
+```
+Pronto os arquivos da solução foram clonados para sua pasta
 Após instalar os programas necessarios  basta abrir a pasta do projeto e abrir o arquivo appsettings.json
 ```
 {
