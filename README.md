@@ -8,6 +8,7 @@ Súmario
    * [Sobre](#Sobre)
    * [Tabela de Conteudo](#tabela-de-conteudo)
    * [Instalação](#Instalação)
+   * [Começando](#Começando)
    
    * [Tecnologias](#Tecnologias)
 <!--te-->
