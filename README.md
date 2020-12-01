@@ -96,7 +96,20 @@ Seu terminal deve ter um resultado do tipo:
 
 Em seu navegador utilize o endereço http://localhost:5000
 
+A seguinte tela se abrirá:
+![Image](https://uploaddeimagens.com.br/images/002/984/857/full/Capturar.PNG?1606780616)
 
+
+Para login utilize
+Login: teste
+
+senha: teste
+
+ou
+
+Login Master
+
+senha: master
 
 
 # Tecnologias
