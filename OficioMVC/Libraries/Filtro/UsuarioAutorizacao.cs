@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace OficioMVC.Libraries.Filtro
 {
@@ -15,7 +18,7 @@ namespace OficioMVC.Libraries.Filtro
         LoginUser _loginUser;
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            _loginUser = (LoginUser)context.HttpContext.RequestServices.GetService(typeof(LoginUser));
+
             Siga_profs User = _loginUser.GetUser();
             if(User == null)
             {

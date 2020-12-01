@@ -14,7 +14,6 @@ namespace OficioMVC.Models
         [JsonProperty("ID")]
         
         public int ID { get; set; }
-        [JsonProperty("user_login")]
         [Required]
         [Display(Name ="Usuario de login é obrigatorio!")]
         public string user_login { get; set; }

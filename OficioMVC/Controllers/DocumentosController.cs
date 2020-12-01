@@ -20,24 +20,26 @@ using System.Web.Mvc;
 
 namespace OficioMVC.Controllers
 {
-    [UsuarioAutorizacao]
+   [Authorize]
     public class DocumentosController : Controller
     {
         private readonly OficioMVCContext _context;
-        private readonly LoginUser _login;
+    
         private readonly DocumentoService _documentoService;
         private readonly FileService _arquivo;
         private readonly Siga_profsService _user;
         private readonly HashPass _hash;
-
-        public DocumentosController(OficioMVCContext context, LoginUser login, DocumentoService documentoService, FileService arquivo, Siga_profsService user, HashPass hash)
+        private readonly LoginService _loginService;
+        
+        public DocumentosController(OficioMVCContext context,  DocumentoService documentoService, FileService arquivo, Siga_profsService user, HashPass hash,LoginService loginService)
         {
             _context = context;
-            _login = login;
+ 
             _documentoService = documentoService;
             _arquivo = arquivo;
             _user = user;
             _hash = hash;
+            _loginService= loginService;
         }
 
 
@@ -45,8 +47,8 @@ namespace OficioMVC.Controllers
         //Retorna todos documentos (não excluidos) 
         public async Task<IActionResult> Index()
         {
-           
-                var oficioMVCContext = _documentoService.FindAllAsync(true);
+       
+              var oficioMVCContext = _documentoService.FindAllAsync(true);
             ViewData["minDate"] = DateTime.Now.ToString("yyyy-MM-dd");
             ViewData["maxDate"] = DateTime.Now.ToString("yyyy-MM-dd");
             return View(await oficioMVCContext);
@@ -85,7 +87,7 @@ namespace OficioMVC.Controllers
             string typeName = T1.ToString();
             ViewBag.typeId = typeId;
             ViewBag.typeName = typeName;
-            Siga_profs Usuario = _login.GetUser();
+            Siga_profs Usuario =  _loginService.ObterSimples(User);
             ViewBag.Siga_profs = Usuario;
             return View();
         }
@@ -114,8 +116,9 @@ namespace OficioMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Documento documento)
             {
-                
-                documento.UsuarioId = _login.GetUser().ID;
+            
+      
+                documento.UsuarioId = _loginService.ObterSimples(User).ID;
                 documento.Numeracao = _documentoService.GetNumMax();
                 documento.Ano = DateTime.Now.Year;
                 documento.DataEnvio = DateTime.Now;
@@ -163,7 +166,7 @@ namespace OficioMVC.Controllers
             //Passando para View a formatação da númeração de documentos
             ViewBag.Doc_identificador = Convert.ToString(documento.Numeracao) + "/" + Convert.ToString(documento.Ano);
 
-            var ViewModel = new DocumentoViewModel { Documento = documento, Usuario = _login.GetUser(), Tipos = _documentoService.GetAllTypes() };
+            var ViewModel = new DocumentoViewModel { Documento = documento, Usuario = _loginService.ObterSimples(User), Tipos = _documentoService.GetAllTypes() };
             ViewModel.teste();
             return View(ViewModel);
         }

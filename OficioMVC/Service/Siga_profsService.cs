@@ -30,5 +30,9 @@ namespace OficioMVC.Service
         {
             return _context.Siga_profs.Any(e => e.ID == id);
         }
+        public bool Siga_profsExists(string user, string pass)
+        {
+            return _context.Siga_profs.Any(e => e.user_login == user && e.user_pass == pass);
+        }
     }
 }

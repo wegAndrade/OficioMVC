@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using OficioMVC.Libraries.Sessao;
 using OficioMVC.Models;
 using OficioMVC.Service;
@@ -19,6 +12,9 @@ using OficioMVC.Libraries.Login;
 using OficioMVC.Service.Seed;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using OficioMVC.Libraries.Autenticacao;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OficioMVC
 {
@@ -34,12 +30,16 @@ namespace OficioMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+           .AddCookie(options =>
+           {
+               options.LoginPath = "/Home/Login";
+               options.SlidingExpiration = true;
+               options.AccessDeniedPath = "/Home/AcessoNegado";
+               
+           });
+
             services.AddScoped<SeedingService>();
             services.AddHttpContextAccessor();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -56,8 +56,12 @@ namespace OficioMVC
             services.AddSingleton<IFileProvider>(
                  new PhysicalFileProvider(
              Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-            services.AddScoped<FileService>();
+            services.AddScoped<LoginService>();
+           services.AddScoped<FileService>();
+            services.AddScoped<IAutenticacao, Autenticacao>();
 
+
+           
 
 
 
@@ -81,7 +85,10 @@ namespace OficioMVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseSession();
+            app.UseAuthentication();
+            
+
+            
 
             app.UseMvc(routes =>
             {

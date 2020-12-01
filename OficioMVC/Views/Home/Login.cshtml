@@ -1,7 +1,7 @@
 ﻿@model OficioMVC.Models.Siga_profs;
 	
 @{
-	ViewData["Title"] = "Login";
+
 
 }
 
@@ -18,7 +18,7 @@
 				<form class="form-signin" asp-action="Login">
 					<h2 class=" "id="cardTitle">Login</h2>
 					<label for="inputUser" class="sr-only">Usuário</label>
-					<input type="text" id="inputUser" class="form-control" placeholder="Usuário" required autofocus  asp-for="user_login">
+					<input type="text" id="inputUser" class="form-control" placeholder="Usuário"  autofocus  asp-for="user_login">
 					<label for="inputPassword" class="sr-only">Senha</label>
 					<input type="password" id="inputPassword" class="form-control" placeholder="Senha" required asp-for="user_pass">
 					
